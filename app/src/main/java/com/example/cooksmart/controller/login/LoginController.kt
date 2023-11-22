@@ -1,4 +1,4 @@
-package com.example.cooksmart.controller.login.login
+package com.example.cooksmart.controller.login
 
 import com.example.cooksmart.model.login.LoginModel
 import com.example.cooksmart.view.login.LoginView

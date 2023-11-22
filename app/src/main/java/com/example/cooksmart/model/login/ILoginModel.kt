@@ -1,5 +1,7 @@
-package com.example.cooksmart.model.login.login
+package com.example.cooksmart.model.login
 
-interface ILoginModel {
+import com.example.cooksmart.model.IModel
+
+interface ILoginModel: IModel {
     fun getUserDetails()
 }
