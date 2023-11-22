@@ -1,4 +1,4 @@
-package com.example.cooksmart.model.login
+package com.example.cooksmart.model.login.login
 
 
 class LoginModel : ILoginModel {
