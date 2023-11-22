@@ -12,7 +12,7 @@ import com.example.cooksmart.controller.login.ILoginController
 import com.example.cooksmart.controller.login.LoginController
 import com.example.cooksmart.model.login.LoginModel
 
-class LoginView(context: Context, viewGroup: ViewGroup?) : ILoginView {
+class LoginView(private val context: Context, viewGroup: ViewGroup?) : ILoginView {
     // MVC Variables
     private val loginView: View
     private val loginController: LoginController
@@ -26,7 +26,9 @@ class LoginView(context: Context, viewGroup: ViewGroup?) : ILoginView {
 
         // Button
         val loginButton: Button = loginView.findViewById(R.id.loginBtn)
+        val registerButton: Button = loginView.findViewById(R.id.registerBtn)
         loginBtnActionListener(loginButton)
+        registerBtnActionListener(registerButton)
     }
 
     private val usernameEditText: EditText = loginView.findViewById(R.id.usernameEditText)
@@ -52,5 +54,9 @@ class LoginView(context: Context, viewGroup: ViewGroup?) : ILoginView {
         }
     }
 
-
+    private fun registerBtnActionListener(registerBtn: Button) {
+        registerBtn.setOnClickListener {
+           loginController.redirectRegister(context)
+        }
+    }
 }

@@ -3,13 +3,17 @@ package com.example.cooksmart
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import com.example.cooksmart.view.register.RegisterView
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.textfield.TextInputEditText
 
 class RegisterActivity : AppCompatActivity() {
+    private lateinit var registerView: RegisterView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_register)
+
+        registerView = RegisterView(this, null)
+        setContentView(registerView.getRootView())
     }
 
     // TODO refactor function to MVC
@@ -21,7 +25,7 @@ class RegisterActivity : AppCompatActivity() {
         datePicker.addOnPositiveButtonClickListener { selection ->
             // Handle the selected date
             // Update the TextInputEditText with the selected date
-            val editText = findViewById<TextInputEditText>(R.id.datePickerEditText)
+            val editText = findViewById<TextInputEditText>(R.id.birthdateRegisterEditText)
             editText.setText(datePicker.headerText)
         }
         // Show the date picker
