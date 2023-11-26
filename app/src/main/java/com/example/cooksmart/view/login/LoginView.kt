@@ -8,31 +8,30 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import com.example.cooksmart.R
-import com.example.cooksmart.controller.login.ILoginController
 import com.example.cooksmart.controller.login.LoginController
 import com.example.cooksmart.model.login.LoginModel
+import com.example.cooksmart.view.base.CView
 
-class LoginView(private val context: Context, viewGroup: ViewGroup?) : ILoginView {
+class LoginView(private val context: Context, viewGroup: ViewGroup?) : CView(), ILoginView {
     // MVC Variables
-    private val loginView: View
-    private val loginController: LoginController
-    private val loginModel: LoginModel
-
+    override val model: LoginModel
+    override val controller: LoginController
+    override val view: View
 
     init {
-        loginView = LayoutInflater.from(context).inflate(R.layout.activity_login, viewGroup)
-        loginModel = LoginModel()
-        loginController = LoginController(loginModel, this)
+        view = LayoutInflater.from(context).inflate(R.layout.activity_login, viewGroup)
+        model = LoginModel()
+        controller = LoginController(model, this)
 
         // Button
-        val loginButton: Button = loginView.findViewById(R.id.loginBtn)
-        val registerButton: Button = loginView.findViewById(R.id.registerBtn)
+        val loginButton: Button = view.findViewById(R.id.loginBtn)
+        val registerButton: Button = view.findViewById(R.id.registerBtn)
         loginBtnActionListener(loginButton)
         registerBtnActionListener(registerButton)
     }
 
-    private val usernameEditText: EditText = loginView.findViewById(R.id.usernameEditText)
-    private val passwordEditText: EditText = loginView.findViewById(R.id.passwordEditText)
+    private val usernameEditText: EditText = view.findViewById(R.id.usernameEditText)
+    private val passwordEditText: EditText = view.findViewById(R.id.passwordEditText)
 
     override fun getUsernameTxt(): String {
         return usernameEditText.toString()
@@ -43,7 +42,7 @@ class LoginView(private val context: Context, viewGroup: ViewGroup?) : ILoginVie
     }
 
     override fun getRootView(): View {
-        return loginView
+        return view
     }
 
     // Listeners
@@ -56,7 +55,7 @@ class LoginView(private val context: Context, viewGroup: ViewGroup?) : ILoginVie
 
     private fun registerBtnActionListener(registerBtn: Button) {
         registerBtn.setOnClickListener {
-           loginController.redirectRegister(context)
+           controller.redirectRegister(context)
         }
     }
 }

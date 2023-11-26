@@ -9,30 +9,31 @@ import android.widget.EditText
 import com.example.cooksmart.R
 import com.example.cooksmart.controller.register.RegisterController
 import com.example.cooksmart.model.register.RegisterModel
+import com.example.cooksmart.view.base.CView
 
-class RegisterView(private val context: Context, viewGroup: ViewGroup?) : IRegisterView {
-    private val registerView: View
-    private val registerModel: RegisterModel
-    private val registerController: RegisterController
+class RegisterView(private val context: Context, viewGroup: ViewGroup?) : CView(),IRegisterView {
+    override val view: View
+    override val model: RegisterModel
+    override val controller: RegisterController
 
     init {
-        registerView = LayoutInflater.from(context).inflate(R.layout.activity_register, viewGroup)
-        registerModel = RegisterModel()
-        registerController = RegisterController(registerModel, this)
+        view = LayoutInflater.from(context).inflate(R.layout.activity_register, viewGroup)
+        model = RegisterModel()
+        controller = RegisterController(model, this)
 
-        val loginBtn: Button = registerView.findViewById(R.id.loginRegisterBtn)
+        val loginBtn: Button = view.findViewById(R.id.loginRegisterBtn)
         loginBtnActionListener(loginBtn)
     }
 
     private val usernameEditText: EditText =
-        registerView.findViewById(R.id.usernameRegisterEditText)
-    private val emailEditText: EditText = registerView.findViewById(R.id.emailRegisterEditText)
+        view.findViewById(R.id.usernameRegisterEditText)
+    private val emailEditText: EditText = view.findViewById(R.id.emailRegisterEditText)
     private val passwordEditText: EditText =
-        registerView.findViewById(R.id.passwordRegisterEditText)
+        view.findViewById(R.id.passwordRegisterEditText)
     private val confirmPasswordEditText: EditText =
-        registerView.findViewById(R.id.confirmPasswordRegisterEditText)
+        view.findViewById(R.id.confirmPasswordRegisterEditText)
     private val birthDateEditText: EditText =
-        registerView.findViewById(R.id.birthdateRegisterEditText)
+        view.findViewById(R.id.birthdateRegisterEditText)
 
     override fun getUsernameText(): String {
         return usernameEditText.toString()
@@ -55,12 +56,12 @@ class RegisterView(private val context: Context, viewGroup: ViewGroup?) : IRegis
     }
 
     override fun getRootView(): View {
-        return registerView
+        return view
     }
 
-    fun loginBtnActionListener(loginBtn: Button) {
+    private fun loginBtnActionListener(loginBtn: Button) {
         loginBtn.setOnClickListener {
-            registerController.redirectLogin(context)
+            controller.redirectLogin(context)
         }
     }
 

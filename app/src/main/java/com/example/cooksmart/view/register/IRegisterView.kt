@@ -1,6 +1,6 @@
 package com.example.cooksmart.view.register
 
-import com.example.cooksmart.view.IView
+import com.example.cooksmart.view.base.IView
 
 interface IRegisterView: IView {
     fun getUsernameText(): String

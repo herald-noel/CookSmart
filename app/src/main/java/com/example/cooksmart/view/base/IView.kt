@@ -1,4 +1,4 @@
-package com.example.cooksmart.view
+package com.example.cooksmart.view.base
 
 import android.view.View
 
