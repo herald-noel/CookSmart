@@ -1,11 +1,13 @@
 package com.example.cooksmart.view.register
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import com.example.cooksmart.R
 import com.example.cooksmart.controller.register.RegisterController
 import com.example.cooksmart.model.register.RegisterModel
@@ -16,29 +18,45 @@ class RegisterView(private val context: Context, viewGroup: ViewGroup?) : CView(
     override val model: RegisterModel
     override val controller: RegisterController
 
+    // EditText
+    private var emailEditText: EditText
+    private var passwordEditText: EditText
+    private var confirmPasswordEditText: EditText
+    private var birthDateEditText: EditText
+
+
+    // Button
+    private var loginBtn: Button
+    private var registerBtn: Button
+
     init {
         view = LayoutInflater.from(context).inflate(R.layout.activity_register, viewGroup)
         model = RegisterModel()
         controller = RegisterController(model, this)
 
-        val loginBtn: Button = view.findViewById(R.id.loginRegisterBtn)
-        loginBtnActionListener(loginBtn)
+        // Initialize EditText
+        emailEditText = view.findViewById(R.id.emailRegisterEditText)
+        passwordEditText =
+            view.findViewById(R.id.passwordRegisterEditText)
+        confirmPasswordEditText =
+            view.findViewById(R.id.confirmPasswordRegisterEditText)
+        birthDateEditText =
+            view.findViewById(R.id.birthdateRegisterEditText)
+
+        // Initialize Button
+        loginBtn = view.findViewById(R.id.loginRegisterBtn)
+        registerBtn = view.findViewById(R.id.signUpBtn)
+
+        loginBtnActionListener()
+        registerBtnActionListener()
     }
 
-    private val emailEditText: EditText = view.findViewById(R.id.emailRegisterEditText)
-    private val passwordEditText: EditText =
-        view.findViewById(R.id.passwordRegisterEditText)
-    private val confirmPasswordEditText: EditText =
-        view.findViewById(R.id.confirmPasswordRegisterEditText)
-    private val birthDateEditText: EditText =
-        view.findViewById(R.id.birthdateRegisterEditText)
-
     override fun getEmailText(): String {
-        return emailEditText.toString()
+        return emailEditText.text.toString()
     }
 
     override fun getPasswordText(): String {
-        return passwordEditText.toString()
+        return passwordEditText.text.toString()
     }
 
     override fun getConfirmPasswordText(): String {
@@ -53,10 +71,19 @@ class RegisterView(private val context: Context, viewGroup: ViewGroup?) : CView(
         return view
     }
 
-    private fun loginBtnActionListener(loginBtn: Button) {
+    private fun loginBtnActionListener() {
         loginBtn.setOnClickListener {
             controller.redirectLogin(context)
         }
     }
 
+    private fun registerBtnActionListener() {
+        registerBtn.setOnClickListener {
+            controller.getRegisterMessage(getEmailText(), getPasswordText())
+        }
+    }
+
+    fun showToast(message: String) {
+        val success = Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
 }

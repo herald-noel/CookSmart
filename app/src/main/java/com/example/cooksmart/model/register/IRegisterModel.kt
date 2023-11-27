@@ -1,6 +1,5 @@
 package com.example.cooksmart.model.register
 
 interface IRegisterModel {
-    fun getUserDetails()
-    fun createUser()
+    fun createUser(email: String, password: String, callback: IRegisterCallback)
 }
