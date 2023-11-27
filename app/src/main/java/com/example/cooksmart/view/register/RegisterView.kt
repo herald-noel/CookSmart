@@ -7,10 +7,16 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.fragment.app.FragmentActivity
 import com.example.cooksmart.R
 import com.example.cooksmart.controller.register.RegisterController
 import com.example.cooksmart.model.register.RegisterModel
 import com.example.cooksmart.view.base.CView
+import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.textfield.TextInputEditText
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class RegisterView(private val context: Context, viewGroup: ViewGroup?) : CView(), IRegisterView {
     override val view: View
@@ -22,11 +28,14 @@ class RegisterView(private val context: Context, viewGroup: ViewGroup?) : CView(
     private var passwordEditText: EditText
     private var confirmPasswordEditText: EditText
     private var birthDateEditText: EditText
+    private var dateText: TextInputEditText
 
 
     // Button
     private var loginBtn: Button
     private var registerBtn: Button
+
+    private lateinit var dateSelected: String
 
     init {
         view = LayoutInflater.from(context).inflate(R.layout.activity_register, viewGroup)
@@ -41,6 +50,7 @@ class RegisterView(private val context: Context, viewGroup: ViewGroup?) : CView(
             view.findViewById(R.id.confirmPasswordRegisterEditText)
         birthDateEditText =
             view.findViewById(R.id.birthdateRegisterEditText)
+        dateText = getRootView().findViewById(R.id.birthdateRegisterEditText)
 
         // Initialize Button
         loginBtn = view.findViewById(R.id.loginRegisterBtn)
@@ -63,7 +73,7 @@ class RegisterView(private val context: Context, viewGroup: ViewGroup?) : CView(
     }
 
     override fun getBirthdate(): String {
-        return birthDateEditText.toString()
+        return dateSelected
     }
 
     override fun getRootView(): View {
@@ -85,4 +95,23 @@ class RegisterView(private val context: Context, viewGroup: ViewGroup?) : CView(
     fun showToast(message: String) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
+
+
+    fun showDatePickerDialog() {
+        val datePicker = MaterialDatePicker.Builder.datePicker().build()
+
+        datePicker.addOnPositiveButtonClickListener { selectedDate ->
+            // Convert the selected date to a formatted string if needed
+            dateSelected =
+                SimpleDateFormat("MM/dd/yyyy", Locale.getDefault()).format(Date(selectedDate))
+
+            // Update the TextInputEditText with the selected date
+            birthDateEditText.setText(dateSelected)
+        }
+
+        datePicker.show(
+            (context as FragmentActivity).supportFragmentManager, datePicker.toString()
+        )
+    }
+
 }
