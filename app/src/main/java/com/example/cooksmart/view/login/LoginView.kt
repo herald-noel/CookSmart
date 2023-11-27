@@ -30,11 +30,11 @@ class LoginView(private val context: Context, viewGroup: ViewGroup?) : CView(), 
         registerBtnActionListener(registerButton)
     }
 
-    private val usernameEditText: EditText = view.findViewById(R.id.emailEditText)
+    private val emailEditText: EditText = view.findViewById(R.id.emailEditText)
     private val passwordEditText: EditText = view.findViewById(R.id.passwordEditText)
 
-    override fun getUsernameTxt(): String {
-        return usernameEditText.toString()
+    override fun getEmailTxt(): String {
+        return emailEditText.toString()
     }
 
     override fun getPasswordTxt(): String {
