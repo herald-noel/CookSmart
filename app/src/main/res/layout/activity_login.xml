@@ -41,13 +41,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="58dp"
-            android:hint="Username"
-            app:startIconDrawable="@drawable/ic_baseline_person_24">
+            android:hint="Email"
+            app:startIconDrawable="@drawable/ic_baseline_email_24">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/usernameEditText"
+                android:id="@+id/emailEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
