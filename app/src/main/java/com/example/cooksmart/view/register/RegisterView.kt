@@ -1,7 +1,6 @@
 package com.example.cooksmart.view.register
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -79,11 +78,11 @@ class RegisterView(private val context: Context, viewGroup: ViewGroup?) : CView(
 
     private fun registerBtnActionListener() {
         registerBtn.setOnClickListener {
-            controller.getRegisterMessage(getEmailText(), getPasswordText())
+            controller.getRegisterMessage(getEmailText(), getPasswordText(), getBirthdate())
         }
     }
 
     fun showToast(message: String) {
-        val success = Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 }

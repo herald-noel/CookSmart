@@ -7,6 +7,7 @@ import com.example.cooksmart.LoginActivity
 import com.example.cooksmart.controller.base.Controller
 import com.example.cooksmart.model.register.IRegisterCallback
 import com.example.cooksmart.model.register.RegisterModel
+import com.example.cooksmart.model.register.data.User
 import com.example.cooksmart.view.register.RegisterView
 
 class RegisterController(
@@ -16,8 +17,11 @@ class RegisterController(
     IRegisterController,
     IRegisterCallback {
 
-    override fun getRegisterMessage(email: String, password: String) {
-        registerModel.createUser(email, password, this)
+    override fun getRegisterMessage(email: String, password: String, birthdate: String) {
+        registerModel.createUser(email,
+            password,
+            birthdate,
+            this)
     }
 
     fun redirectLogin(context: Context) {

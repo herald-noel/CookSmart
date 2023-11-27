@@ -22,11 +22,11 @@ class RegisterActivity : AppCompatActivity() {
         val datePicker = MaterialDatePicker.Builder.datePicker().build()
 
         // Set a listener to handle the selected date
-        datePicker.addOnPositiveButtonClickListener { selection ->
+        datePicker.addOnPositiveButtonClickListener {
             // Handle the selected date
             // Update the TextInputEditText with the selected date
-            //val editText = findViewById<TextInputEditText>(R.id.birthdateRegisterEditText)
-            //editText.setText(datePicker.headerText)
+            val editText = findViewById<TextInputEditText>(R.id.birthdateRegisterEditText)
+            editText.setText(datePicker.headerText)
         }
         // Show the date picker
         datePicker.show(supportFragmentManager, datePicker.toString())
