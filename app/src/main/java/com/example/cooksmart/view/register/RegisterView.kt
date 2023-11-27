@@ -11,7 +11,7 @@ import com.example.cooksmart.controller.register.RegisterController
 import com.example.cooksmart.model.register.RegisterModel
 import com.example.cooksmart.view.base.CView
 
-class RegisterView(private val context: Context, viewGroup: ViewGroup?) : CView(),IRegisterView {
+class RegisterView(private val context: Context, viewGroup: ViewGroup?) : CView(), IRegisterView {
     override val view: View
     override val model: RegisterModel
     override val controller: RegisterController
@@ -25,8 +25,6 @@ class RegisterView(private val context: Context, viewGroup: ViewGroup?) : CView(
         loginBtnActionListener(loginBtn)
     }
 
-    private val usernameEditText: EditText =
-        view.findViewById(R.id.usernameRegisterEditText)
     private val emailEditText: EditText = view.findViewById(R.id.emailRegisterEditText)
     private val passwordEditText: EditText =
         view.findViewById(R.id.passwordRegisterEditText)
@@ -34,10 +32,6 @@ class RegisterView(private val context: Context, viewGroup: ViewGroup?) : CView(
         view.findViewById(R.id.confirmPasswordRegisterEditText)
     private val birthDateEditText: EditText =
         view.findViewById(R.id.birthdateRegisterEditText)
-
-    override fun getUsernameText(): String {
-        return usernameEditText.toString()
-    }
 
     override fun getEmailText(): String {
         return emailEditText.toString()
