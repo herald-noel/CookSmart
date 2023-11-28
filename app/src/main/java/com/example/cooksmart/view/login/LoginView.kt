@@ -1,12 +1,12 @@
 package com.example.cooksmart.view.login
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import com.example.cooksmart.R
 import com.example.cooksmart.controller.login.LoginController
 import com.example.cooksmart.model.login.LoginModel
@@ -18,27 +18,40 @@ class LoginView(private val context: Context, viewGroup: ViewGroup?) : CView(), 
     override val controller: LoginController
     override val view: View
 
+    // EditText
+    private var emailEditText: EditText
+    private var passwordEditText: EditText
+
+    // Button
+    private var loginBtn: Button
+    private var registerBtn: Button
+
+
     init {
         view = LayoutInflater.from(context).inflate(R.layout.activity_login, viewGroup)
         model = LoginModel()
         controller = LoginController(model, this)
 
-        // Button
-        val loginButton: Button = view.findViewById(R.id.loginBtn)
-        val registerButton: Button = view.findViewById(R.id.registerBtn)
-        loginBtnActionListener(loginButton)
-        registerBtnActionListener(registerButton)
+        // Initialize EditText
+        emailEditText = view.findViewById(R.id.emailEditText)
+        passwordEditText = view.findViewById(R.id.passwordEditText)
+
+        // Initialize Button
+        loginBtn = view.findViewById(R.id.loginBtn)
+        registerBtn = view.findViewById(R.id.registerBtn)
+
+        // Listeners
+        loginBtnActionListener()
+        registerBtnActionListener()
     }
 
-    private val emailEditText: EditText = view.findViewById(R.id.emailEditText)
-    private val passwordEditText: EditText = view.findViewById(R.id.passwordEditText)
 
-    override fun getEmailTxt(): String {
-        return emailEditText.toString()
+    override fun getEmailText(): String {
+        return emailEditText.text.toString()
     }
 
-    override fun getPasswordTxt(): String {
-        return passwordEditText.toString()
+    override fun getPasswordText(): String {
+        return passwordEditText.text.toString()
     }
 
     override fun getRootView(): View {
@@ -46,16 +59,23 @@ class LoginView(private val context: Context, viewGroup: ViewGroup?) : CView(), 
     }
 
     // Listeners
-    private fun loginBtnActionListener(loginButton: Button) {
-        loginButton.setOnClickListener {
-            Log.d("hello", "test")
-            // loginController.verifyUser()
+    private fun loginBtnActionListener() {
+        loginBtn.setOnClickListener {
+            controller.getLoginStatus(getEmailText(), getPasswordText())
         }
     }
 
-    private fun registerBtnActionListener(registerBtn: Button) {
+    private fun registerBtnActionListener() {
         registerBtn.setOnClickListener {
-           controller.redirectRegister(context)
+            controller.redirectRegister(context)
         }
+    }
+
+    fun showSuccessToast(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
+
+    fun showErrorToast(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 }
