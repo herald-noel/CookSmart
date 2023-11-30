@@ -1,6 +1,8 @@
 package com.example.cooksmart.view.register
 
 import android.content.Context
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -136,7 +138,7 @@ class RegisterView(private val context: Context, viewGroup: ViewGroup?) : CView(
     }
 
     fun showEmailExistError() {
-       emailContainer.error = "Email already exist."
+        emailContainer.error = "Email already exist."
     }
 
     // Listeners
@@ -148,7 +150,7 @@ class RegisterView(private val context: Context, viewGroup: ViewGroup?) : CView(
 
     private fun registerBtnActionListener() {
         registerBtn.setOnClickListener {
-                controller.getRegisterMessage(getEmailText(), getPasswordText(), getBirthdate())
+            controller.getRegisterMessage(getEmailText(), getPasswordText(), getBirthdate())
         }
     }
 
@@ -168,28 +170,46 @@ class RegisterView(private val context: Context, viewGroup: ViewGroup?) : CView(
     }
 
     private fun emailFocusListener() {
-        emailEditText.setOnFocusChangeListener { _, focused ->
-            if (!focused) {
+        emailEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 emailContainer.error = controller.validateEmail()
             }
-        }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                emailContainer.error = controller.validateEmail()
+            }
+        })
     }
 
     private fun passwordFocusListener() {
-        passwordEditText.setOnFocusChangeListener { _, focused ->
-            if (!focused) {
+        passwordEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
                 passwordContainer.error = controller.validatePassword()
                 confirmPasswordContainer.error = controller.validateConfirmPassword()
             }
-        }
+        })
     }
 
     private fun confirmPasswordFocusListener() {
-        confirmPasswordEditText.setOnFocusChangeListener { _, focused ->
-            if (!focused) {
+        confirmPasswordEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
                 confirmPasswordContainer.error = controller.validateConfirmPassword()
             }
-        }
+        })
     }
-
 }
