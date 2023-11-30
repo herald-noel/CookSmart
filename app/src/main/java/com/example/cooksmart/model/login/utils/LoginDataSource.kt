@@ -16,7 +16,7 @@ class LoginDataSource {
                 callback(Result.Success(loggedInUser))
             } else {
                 Log.d("SIGN IN ERROR", "signInWithEmail:failure", task.exception)
-                val error = Result.Error(IOException("Error logging in", task.exception))
+                val error = Result.Error(IOException("Incorrect credentials", task.exception))
                 callback(error)
             }
         }

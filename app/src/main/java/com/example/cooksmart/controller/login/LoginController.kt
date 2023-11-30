@@ -15,10 +15,11 @@ class LoginController(
 ) : Controller(), ILoginController, ILoginCallback {
 
     override fun getLoginStatus(email: String, password: String) {
-        // TODO validate editText first
         val formValid = validateForm()
         if (formValid) {
             loginModel.login(email, password, this)
+        } else {
+            loginView.showErrorToast("Incorrect credentials")
         }
     }
 
@@ -32,8 +33,7 @@ class LoginController(
            loginView.showSuccessToast("Login successfully")
             // TODO redirect to main
         } else {
-            loginView.showErrorToast("Please try again.")
-            // TODO make error clear
+            loginView.showErrorToast("Incorrect credentials. Please try again.")
         }
     }
 
