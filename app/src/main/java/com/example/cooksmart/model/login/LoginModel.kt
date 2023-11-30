@@ -19,6 +19,7 @@ class LoginModel : Model(), ILoginModel {
 
                 is Result.Error -> {
                     callback.onLogin(false)
+                    println(result.exception.message)
                 }
             }
 

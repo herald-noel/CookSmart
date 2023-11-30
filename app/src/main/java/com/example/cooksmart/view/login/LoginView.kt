@@ -1,6 +1,8 @@
 package com.example.cooksmart.view.login
 
 import android.content.Context
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +13,7 @@ import com.example.cooksmart.R
 import com.example.cooksmart.controller.login.LoginController
 import com.example.cooksmart.model.login.LoginModel
 import com.example.cooksmart.view.base.CView
+import com.google.android.material.textfield.TextInputLayout
 
 class LoginView(private val context: Context, viewGroup: ViewGroup?) : CView(), ILoginView {
     // MVC Variables
@@ -26,6 +29,9 @@ class LoginView(private val context: Context, viewGroup: ViewGroup?) : CView(), 
     private var loginBtn: Button
     private var registerBtn: Button
 
+    // TextInputLayout
+    private var emailContainer: TextInputLayout
+    private var passwordContainer: TextInputLayout
 
     init {
         view = LayoutInflater.from(context).inflate(R.layout.activity_login, viewGroup)
@@ -40,9 +46,15 @@ class LoginView(private val context: Context, viewGroup: ViewGroup?) : CView(), 
         loginBtn = view.findViewById(R.id.loginBtn)
         registerBtn = view.findViewById(R.id.registerBtn)
 
+        // Initialize Container
+        emailContainer = view.findViewById(R.id.emailLoginContainer)
+        passwordContainer = view.findViewById(R.id.passwordLoginContainer)
+
         // Listeners
         loginBtnActionListener()
         registerBtnActionListener()
+        emailFocusListener()
+        passwordFocusListener()
     }
 
 
@@ -58,6 +70,22 @@ class LoginView(private val context: Context, viewGroup: ViewGroup?) : CView(), 
         return view
     }
 
+    fun getEmailContainer(): TextInputLayout {
+        return emailContainer
+    }
+
+    fun getPasswordContainer(): TextInputLayout {
+        return passwordContainer
+    }
+
+    fun showSuccessToast(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
+
+    fun showErrorToast(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
+
     // Listeners
     private fun loginBtnActionListener() {
         loginBtn.setOnClickListener {
@@ -71,11 +99,38 @@ class LoginView(private val context: Context, viewGroup: ViewGroup?) : CView(), 
         }
     }
 
-    fun showSuccessToast(message: String) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+
+    private fun emailFocusListener() {
+        emailEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(
+                s: CharSequence, start: Int,
+                before: Int, count: Int
+            ) {
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                emailContainer.error = controller.validateEmail()
+            }
+        })
     }
 
-    fun showErrorToast(message: String) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    private fun passwordFocusListener() {
+        passwordEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(
+                s: CharSequence, start: Int,
+                before: Int, count: Int
+            ) {
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                passwordContainer.error = controller.validatePassword()
+            }
+        })
     }
 }
