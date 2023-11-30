@@ -64,7 +64,7 @@ class RegisterView(private val context: Context, viewGroup: ViewGroup?) : CView(
 
         // Initialize container
         emailContainer = view.findViewById(R.id.emailContainer)
-        passwordContainer = view.findViewById(R.id.passwordContainer)
+        passwordContainer = view.findViewById(R.id.passwordLoginContainer)
         confirmPasswordContainer = view.findViewById(R.id.confirmPasswordContainer)
         datePickerContainer = view.findViewById(R.id.datePickerContainer)
 

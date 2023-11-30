@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_bold"
-            android:text="Login"
+            android:text="@string/login"
             android:textSize="40sp" />
 
         <TextView
@@ -31,17 +31,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_medium"
-            android:text="Please sign in to continue."
+            android:text="@string/please_sign_in_to_continue"
             android:textColor="#66000000"
             android:textSize="18sp" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/outlineUsername"
+            android:id="@+id/emailLoginContainer"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="58dp"
-            android:hint="Email"
+            android:hint="@string/email"
             app:startIconDrawable="@drawable/ic_baseline_email_24">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -54,12 +54,12 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/passwordContainer"
+            android:id="@+id/passwordLoginContainer"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="29dp"
-            android:hint="Password"
+            android:hint="@string/password"
             app:startIconDrawable="@drawable/ic_baseline_lock_24">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -75,7 +75,7 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginTop="72dp"
-            android:text="LOGIN" />
+            android:text="@string/login" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -87,14 +87,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Don't have an account?" />
+                android:text="@string/don_t_have_an_account" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/registerBtn"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sign Up" />
+                android:text="@string/sign_up" />
         </LinearLayout>
 
     </LinearLayout>
