@@ -179,6 +179,7 @@ class RegisterView(private val context: Context, viewGroup: ViewGroup?) : CView(
         passwordEditText.setOnFocusChangeListener { _, focused ->
             if (!focused) {
                 passwordContainer.error = controller.validatePassword()
+                confirmPasswordContainer.error = controller.validateConfirmPassword()
             }
         }
     }

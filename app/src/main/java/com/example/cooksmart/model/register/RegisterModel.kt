@@ -2,6 +2,7 @@ package com.example.cooksmart.model.register
 
 import android.util.Log
 import com.example.cooksmart.model.base.Model
+import com.example.cooksmart.model.login.data.LoggedInUser
 import com.example.cooksmart.model.register.data.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
@@ -26,6 +27,7 @@ class RegisterModel : Model(), IRegisterModel {
                 if (task.isSuccessful) {
                     val user: FirebaseUser? = task.result.user
                     val newUser = User(email, birthdate)
+                    val loggedInUser = LoggedInUser(email)
                     user?.let { writeUserDetails(newUser, it.uid) }
                     callback.onRegistration(success)
                 } else {
