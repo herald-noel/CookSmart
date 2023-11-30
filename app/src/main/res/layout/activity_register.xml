@@ -23,18 +23,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_bold"
-            android:text="Create Account"
+            android:text="@string/create_account"
             android:textAlignment="center"
             android:textSize="40sp" />
 
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/emailOutline"
+            android:id="@+id/emailContainer"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="Email"
+            android:hint="@string/email"
             app:startIconDrawable="@drawable/ic_baseline_email_24">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -48,12 +48,12 @@
 
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/outlinePassword"
+            android:id="@+id/passwordContainer"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="Password"
+            android:hint="@string/password"
             app:endIconMode="password_toggle"
             app:startIconDrawable="@drawable/ic_baseline_lock_24">
 
@@ -65,12 +65,12 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/confirmPassOutline"
+            android:id="@+id/confirmPasswordContainer"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="Confirm Password"
+            android:hint="@string/confirm_password"
             app:endIconMode="password_toggle"
             app:startIconDrawable="@drawable/ic_baseline_lock_24">
 
@@ -82,52 +82,51 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/datePickerInputLayout"
+            android:id="@+id/datePickerContainer"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="Birthdate"
+            android:hint="@string/birthdate"
             app:endIconDrawable="@drawable/ic_baseline_lock_24">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/birthdateRegisterEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusable="false"
-                android:inputType="none"
-                android:onClick="showDatePickerDialog" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/signUpBtn"
-            style="@style/Widget.MaterialComponents.Button.Icon"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="16dp"
-            android:text="Sign Up" />
-
-        <LinearLayout
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/birthdateRegisterEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:focusable="false"
+            android:inputType="none"
+            android:onClick="showDatePickerDialog" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Already have an account?" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/loginRegisterBtn"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Sign In" />
-        </LinearLayout>
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/signUpBtn"
+        style="@style/Widget.MaterialComponents.Button.Icon"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/sign_up" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/already_have_an_account" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/loginRegisterBtn"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sign_in" />
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout></androidx.constraintlayout.widget.ConstraintLayout>

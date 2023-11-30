@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.cooksmart.model.base.Model
 import com.example.cooksmart.model.register.data.User
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -28,7 +29,13 @@ class RegisterModel : Model(), IRegisterModel {
                     user?.let { writeUserDetails(newUser, it.uid) }
                     callback.onRegistration(success)
                 } else {
-                    callback.onRegistration(error)
+                    val ex = task.exception
+                    if (ex is FirebaseAuthUserCollisionException) {
+                        val existingEmail = ex.email
+                        callback.onRegistration("EMAIL EXIST")
+                    } else {
+                        callback.onRegistration("Error: ${ex?.message}")
+                    }
                 }
             }
     }
