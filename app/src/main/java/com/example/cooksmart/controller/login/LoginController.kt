@@ -16,19 +16,18 @@ class LoginController(
     private val loginView: LoginView
 ) : Controller(), ILoginController, ILoginCallback {
 
-    override fun getLoginStatus(email: String, password: String, context: Context) {
+    override fun getLoginStatus(email: String, password: String) {
         val formValid = validateForm()
         if (formValid) {
             loginModel.login(email, password, this)
-            redirectMain(context)
         } else {
             loginView.showErrorToast("Incorrect credentials")
         }
     }
 
-    fun redirectRegister(context: Context) {
-        val intent = Intent(context, RegisterActivity::class.java)
-        context.startActivity(intent)
+    fun redirectRegister() {
+        val intent = Intent(loginView.getContext(), RegisterActivity::class.java)
+        loginView.getContext().startActivity(intent)
     }
 
     private fun redirectMain(context: Context) {
@@ -43,7 +42,7 @@ class LoginController(
     override fun onLogin(status: Boolean) {
         if (status) {
             loginView.showSuccessToast("Login successfully")
-            // TODO redirect to main
+            redirectMain(loginView.getContext())
         } else {
             loginView.showErrorToast("Incorrect credentials. Please try again.")
         }

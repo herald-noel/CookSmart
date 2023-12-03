@@ -78,6 +78,10 @@ class LoginView(private val context: Context, viewGroup: ViewGroup?) : CView(), 
         return passwordContainer
     }
 
+    fun getContext(): Context {
+        return context
+    }
+
     fun showSuccessToast(message: String) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
@@ -89,13 +93,13 @@ class LoginView(private val context: Context, viewGroup: ViewGroup?) : CView(), 
     // Listeners
     private fun loginBtnActionListener() {
         loginBtn.setOnClickListener {
-            controller.getLoginStatus(getEmailText(), getPasswordText(), context)
+            controller.getLoginStatus(getEmailText(), getPasswordText())
         }
     }
 
     private fun registerBtnActionListener() {
         registerBtn.setOnClickListener {
-            controller.redirectRegister(context)
+            controller.redirectRegister()
         }
     }
 
