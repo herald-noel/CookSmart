@@ -34,9 +34,9 @@ class LoginController(
         val intent = Intent(context, HomeActivity::class.java)
         context.startActivity(intent)
 
-        if (context is Activity) {
-            context.finish()
-        }
+        // if context is not an instance of Activity or if it's null, the finish()
+        // method won't be called, preventing potential crashes.
+        (context as? Activity)?.finish()
     }
 
     override fun onLogin(status: Boolean) {
