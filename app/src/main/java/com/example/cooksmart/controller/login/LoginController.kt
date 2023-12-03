@@ -1,8 +1,10 @@
 package com.example.cooksmart.controller.login
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.util.Patterns
+import com.example.cooksmart.HomeActivity
 import com.example.cooksmart.RegisterActivity
 import com.example.cooksmart.controller.base.Controller
 import com.example.cooksmart.model.login.ILoginCallback
@@ -14,10 +16,11 @@ class LoginController(
     private val loginView: LoginView
 ) : Controller(), ILoginController, ILoginCallback {
 
-    override fun getLoginStatus(email: String, password: String) {
+    override fun getLoginStatus(email: String, password: String, context: Context) {
         val formValid = validateForm()
         if (formValid) {
             loginModel.login(email, password, this)
+            redirectMain(context)
         } else {
             loginView.showErrorToast("Incorrect credentials")
         }
@@ -28,9 +31,18 @@ class LoginController(
         context.startActivity(intent)
     }
 
+    private fun redirectMain(context: Context) {
+        val intent = Intent(context, HomeActivity::class.java)
+        context.startActivity(intent)
+
+        if (context is Activity) {
+            context.finish()
+        }
+    }
+
     override fun onLogin(status: Boolean) {
         if (status) {
-           loginView.showSuccessToast("Login successfully")
+            loginView.showSuccessToast("Login successfully")
             // TODO redirect to main
         } else {
             loginView.showErrorToast("Incorrect credentials. Please try again.")

@@ -89,7 +89,7 @@ class LoginView(private val context: Context, viewGroup: ViewGroup?) : CView(), 
     // Listeners
     private fun loginBtnActionListener() {
         loginBtn.setOnClickListener {
-            controller.getLoginStatus(getEmailText(), getPasswordText())
+            controller.getLoginStatus(getEmailText(), getPasswordText(), context)
         }
     }
 
