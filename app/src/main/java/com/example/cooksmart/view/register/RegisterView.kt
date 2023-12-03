@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentActivity
 import com.example.cooksmart.R
 import com.example.cooksmart.controller.register.RegisterController
 import com.example.cooksmart.model.register.RegisterModel
+import com.example.cooksmart.model.register.utils.SignUpMessage
 import com.example.cooksmart.view.base.CView
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.textfield.TextInputEditText
@@ -123,6 +124,10 @@ class RegisterView(private val context: Context, viewGroup: ViewGroup?) : CView(
         return datePickerContainer
     }
 
+    fun getContext(): Context {
+        return context
+    }
+
     fun showDatePickerDialog() {
         val datePickerTag = "BirthdateTag"
         val fragmentManager = (context as FragmentActivity).supportFragmentManager
@@ -138,7 +143,7 @@ class RegisterView(private val context: Context, viewGroup: ViewGroup?) : CView(
     }
 
     fun showEmailExistError() {
-        emailContainer.error = "Email already exist."
+        emailContainer.error = SignUpMessage.emailExist
     }
 
     // Listeners

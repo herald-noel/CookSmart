@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.cooksmart.model.base.Model
 import com.example.cooksmart.model.login.data.LoggedInUser
 import com.example.cooksmart.model.register.data.User
+import com.example.cooksmart.model.register.utils.SignUpMessage
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseUser
@@ -19,22 +20,19 @@ class RegisterModel : Model(), IRegisterModel {
         birthdate: String,
         callback: IRegisterCallback
     ) {
-        val success = "Registration success."
-        val error = "Registration unsuccessful."
 
         mAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val user: FirebaseUser? = task.result.user
                     val newUser = User(email, birthdate)
-                    val loggedInUser = LoggedInUser(email)
+
                     user?.let { writeUserDetails(newUser, it.uid) }
-                    callback.onRegistration(success)
+                    callback.onRegistration(SignUpMessage.success)
                 } else {
                     val ex = task.exception
                     if (ex is FirebaseAuthUserCollisionException) {
-                        val existingEmail = ex.email
-                        callback.onRegistration("EMAIL EXIST")
+                        callback.onRegistration(SignUpMessage.emailExist)
                     } else {
                         callback.onRegistration("Error: ${ex?.message}")
                     }
@@ -42,6 +40,7 @@ class RegisterModel : Model(), IRegisterModel {
             }
     }
 
+    // Write additional user details in realtime database
     private fun writeUserDetails(userDetails: User, uid: String) {
         Log.d("User id", uid)
 
