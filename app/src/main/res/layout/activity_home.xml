@@ -64,11 +64,13 @@
 
         <TextView
             android:id="@+id/tvPlaceholder"
-            android:layout_width="198dp"
+            android:layout_width="230dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Select a preset image or take a new photo"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textColor="#F7F6F2"
+            android:textSize="22dp" />
 
         <ImageView
             android:id="@+id/imageView"
@@ -90,8 +92,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout"
-        app:layout_constraintVertical_bias="0.122">
+        app:layout_constraintTop_toBottomOf="@+id/captureImageFab"
+        app:layout_constraintVertical_bias="0.176">
 
         <ImageView
             android:id="@+id/imgSampleOne"
@@ -123,14 +125,19 @@
             android:src="@drawable/img_meal_three" />
     </LinearLayout>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/captureImageFab"
-        android:layout_width="135dp"
-        android:layout_height="48dp"
+        android:layout_width="176dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="16dp"
+        android:drawableLeft="@drawable/baseline_camera_alt_24"
         android:text="Take picture"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/llSampleImage" />
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout"
+        android:backgroundTint="#46B488"
+        app:strokeColor="#548DA6"
+        app:strokeWidth="2dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
