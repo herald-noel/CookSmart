@@ -158,6 +158,7 @@
             app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
             <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayout"
                 android:layout_width="330dp"
                 android:layout_height="52dp"
                 app:tabMode="fixed">
@@ -175,6 +176,11 @@
                     android:text="Recipe list" />
 
             </com.google.android.material.tabs.TabLayout>
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
