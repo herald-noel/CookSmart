@@ -11,4 +11,5 @@
     <string name="login">Login</string>
     <string name="please_sign_in_to_continue">Please sign in to continue.</string>
     <string name="don_t_have_an_account">Don\'t have an account?</string>
+    <string name="api_key">e63afba13ff54bb3a253b8b03b33c7e4</string>
 </resources>
