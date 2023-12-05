@@ -30,6 +30,8 @@ import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.HashSet
+import kotlin.collections.LinkedHashSet
 import kotlin.math.max
 import kotlin.math.min
 
@@ -40,6 +42,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
         private const val MAX_FONT_SIZE = 96F
     }
 
+    val ingredientSet: LinkedHashSet<Ingredient> = LinkedHashSet()
     val ingredientList: ArrayList<Ingredient> = ArrayList()
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager2: ViewPager2
@@ -197,15 +200,16 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun ingredientAdd(results: List<Detection>) {
         runOnUiThread {
+            ingredientSet.clear()
             ingredientList.clear()
-
             for ((i, obj) in results.withIndex()) {
                 for ((j, category) in obj.categories.withIndex()) {
                     Log.d(TAG, "    $j: ${category.label}")
 
-                    ingredientList.add(Ingredient(category.label))
+                    ingredientSet.add(Ingredient(category.label))
                 }
             }
+            ingredientList.addAll(ingredientSet)
             setupViewPagerAndTabs(ingredientList)
         }
     }
