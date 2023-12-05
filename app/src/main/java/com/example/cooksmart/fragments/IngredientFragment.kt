@@ -12,7 +12,7 @@ import com.example.cooksmart.IngredientAdapter
 import com.example.cooksmart.R
 class IngredientFragment : Fragment() {
 
-    private val ingredientList: ArrayList<Ingredient> = ArrayList()
+    private lateinit var ingredientList: ArrayList<Ingredient>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,15 +24,21 @@ class IngredientFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Add sample ingredients to the list
-        ingredientList.add(Ingredient("Ingredient 1"))
-        ingredientList.add(Ingredient("Ingredient 2"))
-        ingredientList.add(Ingredient("Ingredient 3"))
-
-        // Set up RecyclerView
         val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view)
+
+        // Use the ingredientList in the adapter
         val adapter = IngredientAdapter(ingredientList)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
+
+    companion object {
+        // Create a newInstance method to pass the ingredientList to the Fragment
+        fun newInstance(ingredientList: ArrayList<Ingredient>): IngredientFragment {
+            val fragment = IngredientFragment()
+            fragment.ingredientList = ingredientList
+            return fragment
+        }
+    }
 }
+

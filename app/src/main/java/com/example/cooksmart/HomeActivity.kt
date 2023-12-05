@@ -56,7 +56,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
         setContentView(R.layout.activity_home)
 
         tabLayout = findViewById(R.id.tabLayout)
-        viewPager2 =findViewById(R.id.viewPager)
+        viewPager2 = findViewById(R.id.viewPager)
         captureImageFab = findViewById(R.id.captureImageFab)
         inputImageView = findViewById(R.id.imageView)
         imgSampleOne = findViewById(R.id.imgSampleOne)
@@ -70,23 +70,25 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
         imgSampleTwo.setOnClickListener(this)
         imgSampleThree.setOnClickListener(this)
 
-        viewPager2.adapter = ViewPagerAdapter(this)
+        val ingredientList: ArrayList<Ingredient> = ArrayList()
+        ingredientList.add(Ingredient("Ingredient 1"))
+        ingredientList.add(Ingredient("Ingredient 2"))
+        viewPager2.adapter = ViewPagerAdapter(this, ingredientList)
+
+        // Set up the TabLayout and ViewPager2 interaction
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                if(tab != null) {
+                if (tab != null) {
                     viewPager2.currentItem = tab.position
                 }
             }
 
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-            }
+            override fun onTabUnselected(tab: TabLayout.Tab?) {}
 
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-            }
-
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
         })
 
-        viewPager2.registerOnPageChangeCallback(object : OnPageChangeCallback() {
+        viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 tabLayout.selectTab(tabLayout.getTabAt(position))
@@ -116,12 +118,15 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
                     Log.e(TAG, e.message.toString())
                 }
             }
+
             R.id.imgSampleOne -> {
                 setViewAndDetect(getSampleImage(R.drawable.img_meal_one))
             }
+
             R.id.imgSampleTwo -> {
                 setViewAndDetect(getSampleImage(R.drawable.img_meal_two))
             }
+
             R.id.imgSampleThree -> {
                 setViewAndDetect(getSampleImage(R.drawable.img_meal_three))
             }
@@ -170,7 +175,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
      * debugPrint(visionObjects: List<Detection>)
      *      Print the detection result to logcat to examine
      */
-    private fun debugPrint(results : List<Detection>) {
+    private fun debugPrint(results: List<Detection>) {
         for ((i, obj) in results.withIndex()) {
             val box = obj.boundingBox
 
@@ -237,12 +242,15 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
             ExifInterface.ORIENTATION_ROTATE_90 -> {
                 rotateImage(bitmap, 90f)
             }
+
             ExifInterface.ORIENTATION_ROTATE_180 -> {
                 rotateImage(bitmap, 180f)
             }
+
             ExifInterface.ORIENTATION_ROTATE_270 -> {
                 rotateImage(bitmap, 270f)
             }
+
             else -> {
                 bitmap
             }

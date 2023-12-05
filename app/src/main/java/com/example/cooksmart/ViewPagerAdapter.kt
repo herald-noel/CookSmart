@@ -5,18 +5,18 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.cooksmart.fragments.IngredientFragment
 import com.example.cooksmart.fragments.RecipeFragment
+class ViewPagerAdapter(fragmentActivity: FragmentActivity, private val ingredientList: ArrayList<Ingredient>) : FragmentStateAdapter(fragmentActivity) {
 
-class ViewPagerAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity) {
     override fun getItemCount(): Int {
-       return 2;
+        return 2
     }
 
     override fun createFragment(position: Int): Fragment {
-        return when(position) {
-            0 -> IngredientFragment()
+        return when (position) {
+            0 -> IngredientFragment.newInstance(ingredientList)
             1 -> RecipeFragment()
-            else -> IngredientFragment()
+            else -> IngredientFragment.newInstance(ingredientList)
         }
     }
-
 }
+
