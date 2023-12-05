@@ -10,9 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.cooksmart.Ingredient
 import com.example.cooksmart.IngredientAdapter
 import com.example.cooksmart.R
-class IngredientFragment : Fragment() {
+class IngredientFragment : Fragment(), IngredientAdapter.OnRemoveClickListener {
 
-    private lateinit var ingredientList: ArrayList<Ingredient>
+    private lateinit var ingredientList: MutableList<Ingredient>
+    private lateinit var adapter: IngredientAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,10 +27,19 @@ class IngredientFragment : Fragment() {
 
         val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view)
 
-        // Use the ingredientList in the adapter
-        val adapter = IngredientAdapter(ingredientList)
+        // Initialize the adapter with the ingredientList and this fragment as the listener
+        adapter = IngredientAdapter(ingredientList, this)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
+    }
+
+    // Implementation of the remove click listener
+    override fun onRemoveClick(position: Int) {
+        // Remove the item from the list
+        ingredientList.removeAt(position)
+
+        // Notify the adapter about the removal
+        adapter.notifyItemRemoved(position)
     }
 
     companion object {
@@ -41,4 +51,5 @@ class IngredientFragment : Fragment() {
         }
     }
 }
+
 
