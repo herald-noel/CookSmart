@@ -73,6 +73,11 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
         val ingredientList: ArrayList<Ingredient> = ArrayList()
         ingredientList.add(Ingredient("Ingredient 1"))
         ingredientList.add(Ingredient("Ingredient 2"))
+        setupViewPagerAndTabs(ingredientList)
+    }
+
+    private fun setupViewPagerAndTabs(ingredientList: ArrayList<Ingredient>) {
+        // Pass the ingredientList to the ViewPagerAdapter
         viewPager2.adapter = ViewPagerAdapter(this, ingredientList)
 
         // Set up the TabLayout and ViewPager2 interaction
