@@ -40,6 +40,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
         private const val MAX_FONT_SIZE = 96F
     }
 
+    val ingredientList: ArrayList<Ingredient> = ArrayList()
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager2: ViewPager2
     private lateinit var viewPagerAdapter: ViewPagerAdapter
@@ -70,10 +71,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
         imgSampleTwo.setOnClickListener(this)
         imgSampleThree.setOnClickListener(this)
 
-        val ingredientList: ArrayList<Ingredient> = ArrayList()
-        ingredientList.add(Ingredient("Ingredient 1"))
-        ingredientList.add(Ingredient("Ingredient 2"))
-        setupViewPagerAndTabs(ingredientList)
+
     }
 
     private fun setupViewPagerAndTabs(ingredientList: ArrayList<Ingredient>) {
@@ -174,6 +172,8 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
         runOnUiThread {
             inputImageView.setImageBitmap(imgWithResult)
         }
+
+        ingredientAdd(results)
     }
 
     /**
@@ -194,6 +194,22 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
     }
+
+    private fun ingredientAdd(results: List<Detection>) {
+        runOnUiThread {
+            ingredientList.clear()
+
+            for ((i, obj) in results.withIndex()) {
+                for ((j, category) in obj.categories.withIndex()) {
+                    Log.d(TAG, "    $j: ${category.label}")
+
+                    ingredientList.add(Ingredient(category.label))
+                }
+            }
+            setupViewPagerAndTabs(ingredientList)
+        }
+    }
+
 
     /**
      * setViewAndDetect(bitmap: Bitmap)
