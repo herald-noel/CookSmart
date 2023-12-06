@@ -3,8 +3,10 @@ package com.example.cooksmart.api
 import android.content.Context
 import android.util.Log
 import com.example.cooksmart.R
+import com.example.cooksmart.api.listener.InstructionsListener
 import com.example.cooksmart.api.listener.RecipeResponseListener
 import com.example.cooksmart.api.model.RecipeApiResponse
+import com.example.cooksmart.api.model.instructions.InstructionsResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -44,11 +46,37 @@ class RequestManager(val context: Context) {
                     listener.didError(response.message())
                     return
                 }
-                Log.d("isSuccess", "This is a success: ${response.message()}")
                 response.body()?.let { listener.didFetch(it, response.message()) }
             }
 
             override fun onFailure(call: Call<RecipeApiResponse>, t: Throwable) {
+                t.message?.let { listener.didError(it) }
+            }
+        })
+    }
+
+    fun getInstructions(
+        listener: InstructionsListener,
+        id: Int
+    ) {
+        val callInstructions: RecipesApi = api
+        val call: Call<InstructionsResponse> =
+            callInstructions.getAnalyzedRecipeInstructions(
+                id, context.getString(R.string.api_key)
+            )
+        call.enqueue(object : Callback<InstructionsResponse> {
+            override fun onResponse(
+                call: Call<InstructionsResponse>,
+                response: Response<InstructionsResponse>
+            ) {
+                if (!response.isSuccessful) {
+                    listener.didError(response.message())
+                    return
+                }
+                response.body()?.let { listener.didFetch(it, response.message()) }
+            }
+
+            override fun onFailure(call: Call<InstructionsResponse>, t: Throwable) {
                 t.message?.let { listener.didError(it) }
             }
         })
