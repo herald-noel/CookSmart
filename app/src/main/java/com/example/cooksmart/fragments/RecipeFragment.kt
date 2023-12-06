@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.cooksmart.Ingredient
 import com.example.cooksmart.IngredientFragmentListener
 import com.example.cooksmart.R
+import com.example.cooksmart.Recipe
 import com.example.cooksmart.ViewRecipeActivity
 import com.example.cooksmart.adapter.RecipeAdapter
 import com.example.cooksmart.api.RequestManager
@@ -75,7 +76,7 @@ class RecipeFragment(ingredientList: ArrayList<Ingredient>) : Fragment(),
     }
 
     override fun onRecipeClick(recipeItem: RecipeApiResponseItem) {
-        val intent = Intent(requireContext(), ViewRecipeActivity::class.java)
+        val intent = Intent(requireContext(), Recipe::class.java)
         intent.putExtra("recipeName", recipeItem.title)
         intent.putExtra("recipeImageUrl", recipeItem.image)
         startActivity(intent)
