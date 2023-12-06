@@ -13,20 +13,16 @@ import com.example.cooksmart.Ingredient
 import com.example.cooksmart.IngredientFragmentListener
 import com.example.cooksmart.R
 import com.example.cooksmart.adapter.RecipeAdapter
-import com.example.cooksmart.adapter.ViewPagerAdapter
 import com.example.cooksmart.api.RequestManager
 import com.example.cooksmart.api.listener.RecipeResponseListener
 import com.example.cooksmart.api.model.RecipeApiResponse
 import com.example.cooksmart.utils.ListToCommaSeparate
 
-class RecipeFragment(ingredientList: ArrayList<Ingredient>) : Fragment(), IngredientFragmentListener {
-    private  var ingredientList: MutableList<Ingredient> = ingredientList
+class RecipeFragment(ingredientList: ArrayList<Ingredient>) : Fragment(),
+    IngredientFragmentListener {
+    private var ingredientList: MutableList<Ingredient> = ingredientList
     private lateinit var recipeAdapter: RecipeAdapter
     private var lastIngredients: String? = null
-
-    fun setReporter(fragment: IngredientFragment) {
-        fragment.setIngredientFragmentListener(this)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,9 +37,7 @@ class RecipeFragment(ingredientList: ArrayList<Ingredient>) : Fragment(), Ingred
         val ingredients = ListToCommaSeparate.convertToString(ingredientList)
 
         val recyclerview: RecyclerView = view.findViewById(R.id.recycler_recipe_home)
-        recyclerview.layoutManager = object : LinearLayoutManager(requireContext()) {
-            override fun canScrollVertically() = false
-        }
+        recyclerview.layoutManager = LinearLayoutManager(requireContext())
 
         recipeAdapter = RecipeAdapter(RecipeApiResponse())
         recyclerview.adapter = recipeAdapter
@@ -53,7 +47,7 @@ class RecipeFragment(ingredientList: ArrayList<Ingredient>) : Fragment(), Ingred
         }
     }
 
-    fun managerGetRecipe(ingredients: String) {
+    private fun managerGetRecipe(ingredients: String) {
         val manager = RequestManager(requireContext())
         manager.getRecipes(recipeResponseListener, ingredients)
     }
@@ -68,12 +62,8 @@ class RecipeFragment(ingredientList: ArrayList<Ingredient>) : Fragment(), Ingred
         }
     }
 
-    fun updateIngredients(ingredients: List<Ingredient>) {
-        ingredientList = ingredients.toMutableList()
-    }
-
     override fun onIngredientChange(updatedIngredients: MutableList<Ingredient>) {
-       ingredientList = updatedIngredients
+        ingredientList = updatedIngredients
         Log.d("updating", "ok")
 
         val ingredients = ListToCommaSeparate.convertToString(updatedIngredients)
