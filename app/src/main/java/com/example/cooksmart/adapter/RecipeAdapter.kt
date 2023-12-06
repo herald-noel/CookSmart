@@ -9,10 +9,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cooksmart.R
 import com.example.cooksmart.api.model.RecipeApiResponse
+import com.example.cooksmart.api.model.RecipeApiResponseItem
 import com.squareup.picasso.Picasso
 
 class RecipeAdapter(
-    private var recipeResponseList: RecipeApiResponse
+    private var recipeResponseList: RecipeApiResponse,
+    private val listener: OnItemClickListener
 ) : RecyclerView.Adapter<RecipeAdapter.ViewHolder>() {
 
     fun updateData(newResponse: RecipeApiResponse) {
@@ -39,11 +41,20 @@ class RecipeAdapter(
             "No. of missed ingredients ${recipeItem.missedIngredientCount}"
         holder.unusedIngredient.text =
             "No. of unused ingredients ${recipeItem.unusedIngredientCount}"
+
+        holder.itemView.setOnClickListener {
+            listener.onItemClick(recipeItem)
+        }
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick(recipeItem: RecipeApiResponseItem)
     }
 
     override fun getItemCount(): Int {
         return recipeResponseList.size
     }
+
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val recipeName: TextView = itemView.findViewById(R.id.text_recipe_name)

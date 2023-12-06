@@ -12,4 +12,27 @@
     <string name="please_sign_in_to_continue">Please sign in to continue.</string>
     <string name="don_t_have_an_account">Don\'t have an account?</string>
     <string name="api_key">e63afba13ff54bb3a253b8b03b33c7e4</string>
+    <string name="title_activity_view_recipe">ViewRecipeActivity</string>
+
+    <!-- Recipe 1 -->
+    <string-array name="recipe_1_steps">
+        <item>Preheat the oven to 200 degrees F.</item>
+        <item>Whisk together the flour, pecans, granulated sugar, light brown sugar, baking powder, baking soda, and salt in a medium bowl.</item>
+        <item>Whisk together the eggs, buttermilk, butter and vanilla extract and vanilla bean in a small bowl.</item>
+        <item>Add the egg mixture to the dry mixture and gently mix to combine. Do not overmix.</item>
+        <item>Let the batter sit at room temperature for at least 15 minutes and up to 30 minutes before using.</item>
+        <item>Heat a cast iron or nonstick griddle pan over medium heat and brush with melted butter. Once the butter begins to sizzle, use 2 tablespoons of the batter for each pancake and cook until the bubbles appear on the surface and the bottom is golden brown, about 2 minutes, flip over and cook until the bottom is golden brown, 1 to 2 minutes longer.</item>
+        <item>Transfer the pancakes to a platter and keep warm in a 200 degree F oven.</item>
+        <item>Serve 6 pancakes per person, top each with some of the bourbon butter.</item>
+        <item>Drizzle with warm maple syrup and dust with confectioners sugar </item>
+        <item>Garnish with fresh mint sprigs and more toasted pecans, if desired.</item>
+    </string-array>
+
+    <!-- Recipe 2 -->
+    <string-array name="recipe_2_steps">
+        <item>Combine the bourbon and sugar in a small saucepan and cook over high heat until reduced to 3 tablespoons, remove and let cool.</item>
+        <item>Put the butter, molasses, salt and cooled bourbon mixture in a food processor and process until smooth.</item>
+        <item>Scrape into a bowl, cover with plastic wrap and refrigerate for at least 1 hour to allow the flavors to meld.</item>
+        <item>Remove from the refrigerator about 30 minutes before using to soften.</item>
+    </string-array>
 </resources>
