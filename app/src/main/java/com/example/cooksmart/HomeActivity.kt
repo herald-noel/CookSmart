@@ -18,9 +18,10 @@ import androidx.core.content.FileProvider
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
-import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
+import com.example.cooksmart.adapter.ViewPagerAdapter
+import com.example.cooksmart.fragments.IngredientFragment
+import com.example.cooksmart.fragments.RecipeFragment
 import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.tensorflow.lite.support.image.TensorImage
@@ -30,7 +31,6 @@ import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.HashSet
 import kotlin.collections.LinkedHashSet
 import kotlin.math.max
 import kotlin.math.min
@@ -79,7 +79,10 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun setupViewPagerAndTabs(ingredientList: ArrayList<Ingredient>) {
         // Pass the ingredientList to the ViewPagerAdapter
-        viewPager2.adapter = ViewPagerAdapter(this, ingredientList)
+        val ingredientFragment = IngredientFragment(ingredientList)
+        val recipeFragment = RecipeFragment(ingredientList)
+        ingredientFragment.setIngredientFragmentListener(recipeFragment)
+        viewPager2.adapter = ViewPagerAdapter(this, ingredientFragment, recipeFragment)
 
         // Set up the TabLayout and ViewPager2 interaction
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {

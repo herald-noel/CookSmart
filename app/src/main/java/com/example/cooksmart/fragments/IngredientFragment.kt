@@ -1,6 +1,8 @@
 package com.example.cooksmart.fragments
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,11 +11,22 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cooksmart.Ingredient
 import com.example.cooksmart.IngredientAdapter
+import com.example.cooksmart.IngredientFragmentListener
 import com.example.cooksmart.R
-class IngredientFragment : Fragment(), IngredientAdapter.OnRemoveClickListener {
 
-    private lateinit var ingredientList: MutableList<Ingredient>
+class IngredientFragment(ingredientList: ArrayList<Ingredient>) : Fragment(), IngredientAdapter.OnRemoveClickListener {
+
+    private  var ingredientList: MutableList<Ingredient> = ingredientList
     private lateinit var adapter: IngredientAdapter
+    private var listener: IngredientFragmentListener? = null
+
+    fun setIngredientFragmentListener(listener: IngredientFragmentListener) {
+        this.listener = listener
+    }
+    private fun notifyRecipe(updateIngredient: MutableList<Ingredient>) {
+        Log.d("Inisde notify", "nice")
+        listener?.onIngredientChange(updateIngredient)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,17 +51,10 @@ class IngredientFragment : Fragment(), IngredientAdapter.OnRemoveClickListener {
         // Remove the item from the list
         ingredientList.removeAt(position)
 
+        notifyRecipe(ingredientList)
+
         // Notify the adapter about the removal
         adapter.notifyItemRemoved(position)
-    }
-
-    companion object {
-        // Create a newInstance method to pass the ingredientList to the Fragment
-        fun newInstance(ingredientList: ArrayList<Ingredient>): IngredientFragment {
-            val fragment = IngredientFragment()
-            fragment.ingredientList = ingredientList
-            return fragment
-        }
     }
 }
 
