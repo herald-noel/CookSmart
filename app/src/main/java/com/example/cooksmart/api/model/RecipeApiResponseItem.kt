@@ -9,6 +9,7 @@ data class RecipeApiResponseItem(
         val missedIngredients: List<MissedIngredient>,
         val title: String,
         val unusedIngredients: List<UnusedIngredient>,
+        val unusedIngredientCount: Int,
         val usedIngredientCount: Int,
         val usedIngredients: List<UsedIngredient>?
 )
