@@ -2,9 +2,11 @@ package com.example.cooksmart.api
 
 import com.example.cooksmart.api.model.RecipeApiResponse
 import com.example.cooksmart.api.model.RecipeApiResponseItem
+import com.example.cooksmart.api.model.instructions.InstructionsResponse
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface RecipesApi {
@@ -15,4 +17,10 @@ interface RecipesApi {
             @Query("number") number: Int,
             @Query("ranking") ranking: Int,
         ): Call<RecipeApiResponse>
+
+        @GET("recipes/{id}/analyzedInstructions")
+        fun getAnalyzedRecipeInstructions(
+           @Path("id") id: Int,
+           @Query("apiKey") api: String,
+        ): Call<InstructionsResponse>
 }

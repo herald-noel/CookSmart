@@ -6,14 +6,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cooksmart.R
 import com.example.cooksmart.api.model.RecipeApiResponse
+import com.example.cooksmart.api.model.RecipeApiResponseItem
 import com.squareup.picasso.Picasso
 
 class RecipeAdapter(
-    private var recipeResponseList: RecipeApiResponse
+    private var recipeResponseList: RecipeApiResponse,
+    private val onClickListener: OnClickListener
 ) : RecyclerView.Adapter<RecipeAdapter.ViewHolder>() {
+
+    interface OnClickListener {
+        fun onRecipeClick(recipeItem: RecipeApiResponseItem)
+    }
 
     fun updateData(newResponse: RecipeApiResponse) {
         // Update the response data and notify the adapter
@@ -39,6 +46,10 @@ class RecipeAdapter(
             "No. of missed ingredients ${recipeItem.missedIngredientCount}"
         holder.unusedIngredient.text =
             "No. of unused ingredients ${recipeItem.unusedIngredientCount}"
+
+        holder.cardView.setOnClickListener {
+            onClickListener.onRecipeClick(recipeItem)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -51,5 +62,6 @@ class RecipeAdapter(
         val usedIngredient: TextView = itemView.findViewById(R.id.text_ingredient_used)
         val missedIngredient: TextView = itemView.findViewById(R.id.text_ingredient_missed)
         val unusedIngredient: TextView = itemView.findViewById(R.id.text_ingredient_unused)
+        val cardView: CardView = itemView.findViewById(R.id.card)
     }
 }
