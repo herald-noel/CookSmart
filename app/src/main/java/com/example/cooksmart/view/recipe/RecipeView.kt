@@ -22,14 +22,13 @@ class RecipeView(val context: Context, viewGroup: ViewGroup?) : IRecipeView {
     private val recyclerView: RecyclerView
 
     init {
-        view = LayoutInflater.from(context).inflate(R.layout.activity_recipe, viewGroup)
+        view = LayoutInflater.from(context).inflate(R.layout.recipe_view, viewGroup)
 
         recipeIV = view.findViewById(R.id.recipeIV)
         recipeName = view.findViewById(R.id.recipeNTV)
 
-        recyclerView = view.findViewById(R.id.recyclerView_directions)
+        recyclerView = view.findViewById(R.id.recyclerV_Inst)
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = DirectionAdapter(arrayListOf("test", "test1"))
     }
 
     fun setImage(image: String){

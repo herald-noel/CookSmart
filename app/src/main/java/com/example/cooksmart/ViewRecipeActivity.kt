@@ -1,7 +1,6 @@
 package com.example.cooksmart
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,11 +14,15 @@ class ViewRecipeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.recipe_view)
-        val recyclerView: RecyclerView = findViewById(R.id.recyclerV_Inst)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        val itemList = arrayListOf("test", "test1")
-        val adapter = InstructionAdapter(itemList)
-        recyclerView.adapter = adapter
+        recipeView = RecipeView(this, null)
+        recipeView.setName(intent.getStringExtra("recipeName").toString())
+        recipeView.setImage(intent.getStringExtra("recipeImageUrl").toString())
+        setContentView(recipeView.getRootView())
+
+       // val recyclerView: RecyclerView = findViewById(R.id.recyclerV_Inst)
+        //recyclerView.layoutManager = LinearLayoutManager(this)
+        //val itemList = resources.getStringArray(R.array.recipe_1_steps)
+        //val adapter = InstructionAdapter(itemList)
+        //recyclerView.adapter = adapter
     }
 }

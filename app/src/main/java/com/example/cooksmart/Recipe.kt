@@ -14,17 +14,17 @@ class Recipe : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //recipeView = RecipeView(this, null)
 
-        setContentView(R.layout.activity_recipe)
-//        val recipeName = intent.getStringExtra("recipeName").toString()
-//        val recipeImgUrl = intent.getStringExtra("recipeImageUrl").toString()
-//        recipeView.setName(recipeName)
-//        recipeView.setImage(recipeImgUrl)
+        recipeView = RecipeView(this, null)
+        recipeView.setName(intent.getStringExtra("recipeName").toString())
+        recipeView.setImage(intent.getStringExtra("recipeImageUrl").toString())
+        setContentView(recipeView.getRootView())
 
-
-        val recyclerView: RecyclerView= findViewById(R.id.recyclerView_directions)
+        val recyclerView: RecyclerView= findViewById(R.id.recyclerV_Inst)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = DirectionAdapter(arrayListOf("test", "test1"))
+        val stepsArray = resources.getStringArray(R.array.recipe_1_steps)
+        val stepsList = stepsArray.toList()
+        val stepsArrayList = ArrayList(stepsList)
+        recyclerView.adapter = DirectionAdapter(stepsArrayList)
     }
 }

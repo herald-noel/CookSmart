@@ -80,5 +80,7 @@ class RecipeFragment(ingredientList: ArrayList<Ingredient>) : Fragment(),
         intent.putExtra("recipeName", recipeItem.title)
         intent.putExtra("recipeImageUrl", recipeItem.image)
         startActivity(intent)
+        // TODO query recipe
+
     }
 }

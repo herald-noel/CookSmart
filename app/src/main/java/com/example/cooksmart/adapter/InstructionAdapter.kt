@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.cooksmart.R
 
 class InstructionAdapter(
-    private val instructions: ArrayList<String>
+    private val instructions: Array<String>
 ) : RecyclerView.Adapter<InstructionAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
