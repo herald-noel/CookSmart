@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,6 +24,7 @@ import com.example.cooksmart.api.model.RecipeApiResponseItem
 import com.example.cooksmart.api.model.instructions.InstructionsResponse
 import com.example.cooksmart.serialization.InstructionsResponseSerialize
 import com.example.cooksmart.utils.ListToCommaSeparate
+import com.google.android.material.divider.MaterialDivider
 
 class RecipeFragment(ingredientList: ArrayList<Ingredient>) : Fragment(),
     IngredientFragmentListener, RecipeAdapter.OnClickListener {

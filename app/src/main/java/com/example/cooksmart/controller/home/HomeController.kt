@@ -15,6 +15,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.FileProvider
 import androidx.exifinterface.media.ExifInterface
@@ -24,7 +25,9 @@ import com.example.cooksmart.model.home.HomeModel
 import com.example.cooksmart.view.home.HomeView
 import androidx.lifecycle.lifecycleScope
 import com.example.cooksmart.HomeActivity
+import com.example.cooksmart.R
 import com.example.cooksmart.data.DetectionResult
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.tensorflow.lite.support.image.TensorImage
@@ -290,5 +293,22 @@ class HomeController(
     fun openGallery() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         activity.startActivityForResult(intent, PICK_IMAGE_REQUEST)
+    }
+
+    fun showIngredientDialog() {
+        if (homeView.getDialogView().parent != null) {
+            (homeView.getDialogView().parent as? ViewGroup)?.removeView(homeView.getDialogView())
+        }
+        MaterialAlertDialogBuilder(homeView.getContext())
+            .setTitle("Ingredient")
+            .setView(homeView.getDialogView())
+            .setNeutralButton("CANCEL") { dialog, which ->
+                // Respond to neutral button press
+            }
+            .setPositiveButton("ACCEPT") { dialog, which ->
+                // Respond to positive button press
+                val ingredientSet = homeView.getIngredientSet()
+            }
+            .show()
     }
 }

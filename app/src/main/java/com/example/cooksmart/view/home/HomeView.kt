@@ -28,7 +28,8 @@ import com.google.android.material.tabs.TabLayout
 import org.tensorflow.lite.task.vision.detector.Detection
 import java.util.ArrayList
 
-class HomeView(private val context: Context, viewGroup: ViewGroup?) : CView(), View.OnClickListener{
+class HomeView(private val context: Context, private val viewGroup: ViewGroup?) : CView(),
+    View.OnClickListener {
     override val view: View
     override val controller: HomeController
     override val model: Model
@@ -36,7 +37,8 @@ class HomeView(private val context: Context, viewGroup: ViewGroup?) : CView(), V
     private val ingredientSet: LinkedHashSet<Ingredient> = LinkedHashSet()
     private val ingredientList: ArrayList<Ingredient> = ArrayList()
 
-    private var btnOpenGallery: Button
+    private var openGalleryBtn: Button
+    private var addIngredientBtn: Button
 
     private var tabLayout: TabLayout
 
@@ -47,6 +49,11 @@ class HomeView(private val context: Context, viewGroup: ViewGroup?) : CView(), V
     private var captureImageFab: CardView
 
     private var inputImageView: ImageView
+    private var imgSampleOne: ImageView
+    private var imgSampleTwo: ImageView
+    private var imgSampleThree: ImageView
+
+    private var dialogView: View
 
 
     init {
@@ -58,11 +65,31 @@ class HomeView(private val context: Context, viewGroup: ViewGroup?) : CView(), V
         viewPager2 = view.findViewById(R.id.viewPager)
         captureImageFab = view.findViewById(R.id.captureImageFab)
         inputImageView = view.findViewById(R.id.imageView)
+        imgSampleOne = view.findViewById(R.id.imgSampleOne)
+        imgSampleTwo = view.findViewById(R.id.imgSampleTwo)
+        imgSampleThree = view.findViewById(R.id.imgSampleThree)
         tvPlaceholder = view.findViewById(R.id.tvPlaceholder)
-        btnOpenGallery = view.findViewById(R.id.btnOpenGallery)
+        openGalleryBtn = view.findViewById(R.id.openGalleryBtn)
+        addIngredientBtn = view.findViewById(R.id.addIngredientBtn)
+        dialogView =
+            LayoutInflater.from(getContext())
+                .inflate(R.layout.dialog_add_ingredient, viewGroup, false)
 
         captureImageFab.setOnClickListener(this)
-        btnOpenGallery.setOnClickListener(this)
+        imgSampleOne.setOnClickListener(this)
+        imgSampleTwo.setOnClickListener(this)
+        imgSampleThree.setOnClickListener(this)
+        openGalleryBtn.setOnClickListener(this)
+        addIngredientBtn.setOnClickListener(this)
+    }
+
+    fun getIngredientSet(): LinkedHashSet<Ingredient> {
+        return ingredientSet
+    }
+
+    fun getDialogView(): View {
+
+        return dialogView
     }
 
     fun getContext(): Context {
@@ -157,8 +184,25 @@ class HomeView(private val context: Context, viewGroup: ViewGroup?) : CView(), V
                     Log.e(HomeController.TAG, e.message.toString())
                 }
             }
-            R.id.btnOpenGallery -> {
+
+            R.id.imgSampleOne -> {
+                controller.setViewAndDetect(controller.getSampleImage(R.drawable.img_meal_one))
+            }
+
+            R.id.imgSampleTwo -> {
+                controller.setViewAndDetect(controller.getSampleImage(R.drawable.img_meal_two))
+            }
+
+            R.id.imgSampleThree -> {
+                controller.setViewAndDetect(controller.getSampleImage(R.drawable.img_meal_three))
+            }
+
+            R.id.openGalleryBtn -> {
                 controller.openGallery()
+            }
+
+            R.id.addIngredientBtn -> {
+                controller.showIngredientDialog()
             }
         }
     }

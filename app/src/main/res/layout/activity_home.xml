@@ -116,7 +116,7 @@
 
 
         <Button
-            android:id="@+id/btnOpenGallery"
+            android:id="@+id/openGalleryBtn"
             style="@style/Widget.App.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -126,7 +126,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/captureImageFab" />
 
+
         <LinearLayout
+            android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="16dp"
@@ -134,13 +136,62 @@
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnOpenGallery">
+            app:layout_constraintTop_toBottomOf="@+id/openGalleryBtn">
+
+            <LinearLayout
+                android:id="@+id/llSampleImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imgSampleOne"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@null"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/img_meal_one" />
+
+                <ImageView
+                    android:id="@+id/imgSampleTwo"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@null"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/img_meal_two" />
+
+                <ImageView
+                    android:id="@+id/imgSampleThree"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@null"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/img_meal_three" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
                 app:tabMode="fixed">
 
 
@@ -157,6 +208,18 @@
                     android:text="Recipe list" />
 
             </com.google.android.material.tabs.TabLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/addIngredientBtn"
+                style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Ingredient" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/ingredientDivider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewPager"
