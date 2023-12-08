@@ -14,7 +14,7 @@ class RecipeController(
     private val recipeView: RecipeView
 ): Controller() {
 
-    private fun managerGetRecipeDirection (id: Int) {
+    fun managerGetRecipeDirection (id: Int) {
         val manager = RequestManager(recipeView.context)
         manager.getInstructions(instructionsListener, id)
     }
@@ -22,6 +22,7 @@ class RecipeController(
     private val instructionsListener: InstructionsListener = object : InstructionsListener {
         override fun didFetch(response: InstructionsResponse, message: String) {
             Log.d("DIRECTIONS SUCCESS", response.toString())
+            recipeView.setAdapter(response)
         }
 
         override fun didError(message: String) {

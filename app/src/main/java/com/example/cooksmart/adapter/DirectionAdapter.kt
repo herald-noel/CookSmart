@@ -6,8 +6,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cooksmart.R
+import com.example.cooksmart.api.model.instructions.InstructionsResponse
+import com.example.cooksmart.api.model.instructions.InstructionsResponseItem
+import com.example.cooksmart.api.model.instructions.Step
 
-class DirectionAdapter(private val directions: ArrayList<String>) :
+class DirectionAdapter(private val instructions: ArrayList<Step>) :
     RecyclerView.Adapter<DirectionAdapter.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val directionNumber: TextView = itemView.findViewById(R.id.direction_num)
@@ -22,15 +25,15 @@ class DirectionAdapter(private val directions: ArrayList<String>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val itemsViewModel = directions[position]
+        val steps = instructions[position]
 
         // sets the text to the textview from our itemHolder class
-        "${position + 1}".also { holder.directionNumber.text = it }
-        holder.direction.text = itemsViewModel
+        holder.directionNumber.text = steps.number.toString()
+        holder.direction.text = steps.step
     }
 
     override fun getItemCount(): Int {
-        return directions.size
+        return instructions.size
     }
 
 }

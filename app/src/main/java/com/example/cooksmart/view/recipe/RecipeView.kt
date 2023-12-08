@@ -10,8 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cooksmart.R
 import com.example.cooksmart.adapter.DirectionAdapter
-import com.example.cooksmart.adapter.InstructionAdapter
-import com.example.cooksmart.controller.base.Controller
+import com.example.cooksmart.api.model.instructions.InstructionsResponse
 import com.example.cooksmart.controller.recipe.RecipeController
 import com.example.cooksmart.model.base.Model
 import com.example.cooksmart.model.recipe.RecipeModel
@@ -26,8 +25,7 @@ class RecipeView(val context: Context, viewGroup: ViewGroup?) : CView(), IRecipe
 
     private val recipeIV: ImageView
     private val recipeName: TextView
-//    private val recyclerView: RecyclerView
-    private var recipeId: Int = 0
+    private val recyclerView: RecyclerView
 
     init {
         view = LayoutInflater.from(context).inflate(R.layout.recipe_view, viewGroup)
@@ -37,13 +35,8 @@ class RecipeView(val context: Context, viewGroup: ViewGroup?) : CView(), IRecipe
         recipeIV = view.findViewById(R.id.recipeIV)
         recipeName = view.findViewById(R.id.recipeNTV)
 
-//        recyclerView = view.findViewById(R.id.recyclerV_Inst)
-//        recyclerView.layoutManager = LinearLayoutManager(context)
-//
-//        val stepsArray = context.resources.getStringArray(R.array.recipe_1_steps)
-//        val stepsList = stepsArray.toList()
-//        val stepsArrayList = ArrayList(stepsList)
-//        recyclerView.adapter = DirectionAdapter(stepsArrayList)
+        recyclerView = view.findViewById(R.id.recyclerV_Inst)
+        recyclerView.layoutManager = LinearLayoutManager(context)
     }
 
     fun setImage(image: String){
@@ -56,12 +49,16 @@ class RecipeView(val context: Context, viewGroup: ViewGroup?) : CView(), IRecipe
         recipeName.text = name
     }
 
-    fun setId(id: Int) {
-        recipeId = id
+    fun initInstructions(id: Int) {
+        controller.managerGetRecipeDirection(id)
     }
 
     override fun getRootView(): View {
         return view
+    }
+
+    fun setAdapter(response: InstructionsResponse) {
+       recyclerView.adapter = DirectionAdapter(response[0].steps)
     }
 
 }
