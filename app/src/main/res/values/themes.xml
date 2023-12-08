@@ -6,4 +6,8 @@
     </style>
 
     <style name="Theme.CookSmart" parent="Base.Theme.CookSmart" />
+
+    <style name="Widget.App.Button" parent="Widget.Material3.Button.TextButton.Icon">
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
 </resources>

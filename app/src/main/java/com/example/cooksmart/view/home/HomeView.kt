@@ -36,6 +36,8 @@ class HomeView(private val context: Context, viewGroup: ViewGroup?) : CView(), V
     private val ingredientSet: LinkedHashSet<Ingredient> = LinkedHashSet()
     private val ingredientList: ArrayList<Ingredient> = ArrayList()
 
+    private var btnOpenGallery: Button
+
     private var tabLayout: TabLayout
 
     private var viewPager2: ViewPager2
@@ -45,9 +47,6 @@ class HomeView(private val context: Context, viewGroup: ViewGroup?) : CView(), V
     private var captureImageFab: CardView
 
     private var inputImageView: ImageView
-    private var imgSampleOne: ImageView
-    private var imgSampleTwo: ImageView
-    private var imgSampleThree: ImageView
 
 
     init {
@@ -59,15 +58,11 @@ class HomeView(private val context: Context, viewGroup: ViewGroup?) : CView(), V
         viewPager2 = view.findViewById(R.id.viewPager)
         captureImageFab = view.findViewById(R.id.captureImageFab)
         inputImageView = view.findViewById(R.id.imageView)
-        imgSampleOne = view.findViewById(R.id.imgSampleOne)
-        imgSampleTwo = view.findViewById(R.id.imgSampleTwo)
-        imgSampleThree = view.findViewById(R.id.imgSampleThree)
         tvPlaceholder = view.findViewById(R.id.tvPlaceholder)
+        btnOpenGallery = view.findViewById(R.id.btnOpenGallery)
 
         captureImageFab.setOnClickListener(this)
-        imgSampleOne.setOnClickListener(this)
-        imgSampleTwo.setOnClickListener(this)
-        imgSampleThree.setOnClickListener(this)
+        btnOpenGallery.setOnClickListener(this)
     }
 
     fun getContext(): Context {
@@ -92,6 +87,10 @@ class HomeView(private val context: Context, viewGroup: ViewGroup?) : CView(), V
 
     fun setControllerActivity(activity: Activity) {
         controller.setActivity(activity)
+    }
+
+    fun detectImage(bitmap: Bitmap) {
+        controller.setViewAndDetect(bitmap)
     }
 
     override fun getRootView(): View {
@@ -158,17 +157,8 @@ class HomeView(private val context: Context, viewGroup: ViewGroup?) : CView(), V
                     Log.e(HomeController.TAG, e.message.toString())
                 }
             }
-
-            R.id.imgSampleOne -> {
-                controller.setViewAndDetect(controller.getSampleImage(R.drawable.img_meal_one))
-            }
-
-            R.id.imgSampleTwo -> {
-                controller.setViewAndDetect(controller.getSampleImage(R.drawable.img_meal_two))
-            }
-
-            R.id.imgSampleThree -> {
-                controller.setViewAndDetect(controller.getSampleImage(R.drawable.img_meal_three))
+            R.id.btnOpenGallery -> {
+                controller.openGallery()
             }
         }
     }

@@ -15,6 +15,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
+import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.FileProvider
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.LifecycleCoroutineScope
@@ -44,7 +45,8 @@ class HomeController(
 
     companion object {
         const val TAG = "TFLite - ODT"
-        const val REQUEST_IMAGE_CAPTURE: Int = 1
+        const val REQUEST_IMAGE_CAPTURE = 1
+        const val PICK_IMAGE_REQUEST = 2
         private const val MAX_FONT_SIZE = 96F
     }
 
@@ -283,5 +285,10 @@ class HomeController(
             source, 0, 0, source.width, source.height,
             matrix, true
         )
+    }
+
+    fun openGallery() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        activity.startActivityForResult(intent, PICK_IMAGE_REQUEST)
     }
 }
