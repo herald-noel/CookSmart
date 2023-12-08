@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.cooksmart.Ingredient
 import com.example.cooksmart.IngredientFragmentListener
 import com.example.cooksmart.R
-import com.example.cooksmart.Recipe
+import com.example.cooksmart.RecipeActivity
 import com.example.cooksmart.adapter.RecipeAdapter
 import com.example.cooksmart.api.RequestManager
 import com.example.cooksmart.api.listener.InstructionsListener
@@ -58,10 +58,7 @@ class RecipeFragment(ingredientList: ArrayList<Ingredient>) : Fragment(),
         manager.getRecipes(recipeResponseListener, ingredients)
     }
 
-    private fun managerGetRecipeDirection (id: Int) {
-        val manager = RequestManager(requireContext())
-        manager.getInstructions(instructionsListener, id)
-    }
+
 
     private val recipeResponseListener: RecipeResponseListener = object : RecipeResponseListener {
         override fun didFetch(response: RecipeApiResponse, message: String) {
@@ -73,25 +70,7 @@ class RecipeFragment(ingredientList: ArrayList<Ingredient>) : Fragment(),
         }
     }
 
-    private val instructionsListener: InstructionsListener = object : InstructionsListener {
-        override fun didFetch(response: InstructionsResponse, message: String) {
-            Log.d("DIRECTIONS SUCCESS", response.toString())
 
-            // Redirect
-            val instructionsResponse = InstructionsResponseSerialize(response)
-            val bundle = Bundle()
-            bundle.putSerializable("recipe", instructionsResponse)
-
-            val intent = Intent(requireContext(), Recipe::class.java)
-            intent.putExtras(bundle)
-            startActivity(intent)
-        }
-
-        override fun didError(message: String) {
-            Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
-        }
-
-    }
 
     override fun onIngredientChange(updatedIngredients: MutableList<Ingredient>) {
         ingredientList = updatedIngredients
@@ -100,6 +79,10 @@ class RecipeFragment(ingredientList: ArrayList<Ingredient>) : Fragment(),
     }
 
     override fun onRecipeClick(recipeItem: RecipeApiResponseItem) {
-        managerGetRecipeDirection(recipeItem.id)
+        val intent = Intent(requireContext(), RecipeActivity::class.java)
+        intent.putExtra("recipeId", recipeItem.id)
+        intent.putExtra("recipeName", recipeItem.title)
+        intent.putExtra("recipeImageUrl", recipeItem.image)
+        startActivity(intent)
     }
 }

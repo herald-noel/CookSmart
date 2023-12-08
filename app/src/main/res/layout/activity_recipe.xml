@@ -7,7 +7,7 @@
     android:layout_marginStart="10dp"
     android:layout_marginEnd="10dp"
     android:orientation="vertical"
-    tools:context=".Recipe">
+    tools:context=".RecipeActivity">
 
     <ImageView
         android:id="@+id/recipeDirectionImg"

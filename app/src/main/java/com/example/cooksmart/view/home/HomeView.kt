@@ -52,7 +52,7 @@ class HomeView(private val context: Context, viewGroup: ViewGroup?) : CView(), V
     init {
         view = LayoutInflater.from(context).inflate(R.layout.activity_home, viewGroup)
         model = HomeModel()
-        controller = HomeController(model, this)
+        controller = HomeController(this)
 
         tabLayout = view.findViewById(R.id.tabLayout)
         viewPager2 = view.findViewById(R.id.viewPager)

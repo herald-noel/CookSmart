@@ -36,7 +36,6 @@ import kotlin.math.max
 import kotlin.math.min
 
 class HomeController(
-    private val homeModel: HomeModel,
     private val homeView: HomeView
 ) : Controller() {
     private lateinit var lifecycleScope: LifecycleCoroutineScope
