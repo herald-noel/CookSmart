@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
@@ -30,7 +31,7 @@ import java.util.ArrayList
 
 class HomeView(private val context: Context, private val viewGroup: ViewGroup?) : CView(),
     View.OnClickListener {
-    override val view: View
+    override val view: View = LayoutInflater.from(context).inflate(R.layout.activity_home, viewGroup)
     override val controller: HomeController
     override val model: Model
 
@@ -55,12 +56,9 @@ class HomeView(private val context: Context, private val viewGroup: ViewGroup?) 
 
     private var dialogView: View
 
-
     init {
-        view = LayoutInflater.from(context).inflate(R.layout.activity_home, viewGroup)
         model = HomeModel()
         controller = HomeController(this)
-
         tabLayout = view.findViewById(R.id.tabLayout)
         viewPager2 = view.findViewById(R.id.viewPager)
         captureImageFab = view.findViewById(R.id.captureImageFab)
@@ -87,8 +85,11 @@ class HomeView(private val context: Context, private val viewGroup: ViewGroup?) 
         return ingredientSet
     }
 
-    fun getDialogView(): View {
+    fun getIngredientList(): ArrayList<Ingredient> {
+        return ingredientList
+    }
 
+    fun getDialogView(): View {
         return dialogView
     }
 
@@ -124,7 +125,7 @@ class HomeView(private val context: Context, private val viewGroup: ViewGroup?) 
         return view
     }
 
-    private fun setupViewPagerAndTabs(ingredientList: ArrayList<Ingredient>) {
+    fun setupViewPagerAndTabs(ingredientList: ArrayList<Ingredient>) {
         // Pass the ingredientList to the ViewPagerAdapter
         val ingredientFragment = IngredientFragment(ingredientList)
         val recipeFragment = RecipeFragment(ingredientList)
