@@ -1,7 +1,6 @@
 package com.example.cooksmart.api
 
 import android.content.Context
-import android.util.Log
 import com.example.cooksmart.R
 import com.example.cooksmart.api.listener.InstructionsListener
 import com.example.cooksmart.api.listener.RecipeResponseListener

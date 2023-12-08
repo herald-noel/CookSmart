@@ -1,6 +1,5 @@
 package com.example.cooksmart.fragments
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -15,12 +14,14 @@ import com.example.cooksmart.Ingredient
 import com.example.cooksmart.IngredientFragmentListener
 import com.example.cooksmart.R
 import com.example.cooksmart.Recipe
-import com.example.cooksmart.ViewRecipeActivity
 import com.example.cooksmart.adapter.RecipeAdapter
 import com.example.cooksmart.api.RequestManager
+import com.example.cooksmart.api.listener.InstructionsListener
 import com.example.cooksmart.api.listener.RecipeResponseListener
 import com.example.cooksmart.api.model.RecipeApiResponse
 import com.example.cooksmart.api.model.RecipeApiResponseItem
+import com.example.cooksmart.api.model.instructions.InstructionsResponse
+import com.example.cooksmart.serialization.InstructionsResponseSerialize
 import com.example.cooksmart.utils.ListToCommaSeparate
 
 class RecipeFragment(ingredientList: ArrayList<Ingredient>) : Fragment(),
@@ -57,6 +58,11 @@ class RecipeFragment(ingredientList: ArrayList<Ingredient>) : Fragment(),
         manager.getRecipes(recipeResponseListener, ingredients)
     }
 
+    private fun managerGetRecipeDirection (id: Int) {
+        val manager = RequestManager(requireContext())
+        manager.getInstructions(instructionsListener, id)
+    }
+
     private val recipeResponseListener: RecipeResponseListener = object : RecipeResponseListener {
         override fun didFetch(response: RecipeApiResponse, message: String) {
             recipeAdapter.updateData(response)
@@ -67,20 +73,33 @@ class RecipeFragment(ingredientList: ArrayList<Ingredient>) : Fragment(),
         }
     }
 
+    private val instructionsListener: InstructionsListener = object : InstructionsListener {
+        override fun didFetch(response: InstructionsResponse, message: String) {
+            Log.d("DIRECTIONS SUCCESS", response.toString())
+
+            // Redirect
+            val instructionsResponse = InstructionsResponseSerialize(response)
+            val bundle = Bundle()
+            bundle.putSerializable("recipe", instructionsResponse)
+
+            val intent = Intent(requireContext(), Recipe::class.java)
+            intent.putExtras(bundle)
+            startActivity(intent)
+        }
+
+        override fun didError(message: String) {
+            Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+        }
+
+    }
+
     override fun onIngredientChange(updatedIngredients: MutableList<Ingredient>) {
         ingredientList = updatedIngredients
-        Log.d("updating", "ok")
-
         val ingredients = ListToCommaSeparate.convertToString(updatedIngredients)
         managerGetRecipe(ingredients)
     }
 
     override fun onRecipeClick(recipeItem: RecipeApiResponseItem) {
-        val intent = Intent(requireContext(), Recipe::class.java)
-        intent.putExtra("recipeName", recipeItem.title)
-        intent.putExtra("recipeImageUrl", recipeItem.image)
-        startActivity(intent)
-        // TODO query recipe
-
+        managerGetRecipeDirection(recipeItem.id)
     }
 }

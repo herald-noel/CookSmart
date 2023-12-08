@@ -4,9 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.example.cooksmart.adapter.DirectionAdapter
-import com.example.cooksmart.adapter.InstructionAdapter
+import com.example.cooksmart.api.model.instructions.InstructionsResponse
 import com.example.cooksmart.view.recipe.RecipeView
 
 class Recipe : AppCompatActivity() {
@@ -14,6 +13,9 @@ class Recipe : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val bundle = intent.extras
+        val instructionResponse = bundle!!.getSerializable("recipe") as InstructionsResponse
 
         recipeView = RecipeView(this, null)
         recipeView.setName(intent.getStringExtra("recipeName").toString())

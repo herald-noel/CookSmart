@@ -24,7 +24,6 @@ class IngredientFragment(ingredientList: ArrayList<Ingredient>) : Fragment(), In
         this.listener = listener
     }
     private fun notifyRecipe(updateIngredient: MutableList<Ingredient>) {
-        Log.d("Inisde notify", "nice")
         listener?.onIngredientChange(updateIngredient)
     }
 
