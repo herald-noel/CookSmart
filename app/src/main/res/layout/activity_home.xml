@@ -4,29 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="16dp"
+    android:fillViewport="true"
     tools:context=".HomeActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"></LinearLayout>
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/logo"
             android:layout_width="181dp"
             android:layout_height="39dp"
             android:layout_marginTop="20dp"
+            android:src="@drawable/cooksmart"
             app:layout_constraintEnd_toStartOf="@+id/profile_icon"
             app:layout_constraintHorizontal_bias="0.201"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/cooksmart" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/profile_icon"
@@ -34,9 +28,9 @@
             android:layout_height="41dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="32dp"
+            android:src="@drawable/ic_baseline_person_24"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_baseline_person_24" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textView5"
@@ -46,6 +40,7 @@
             android:layout_marginTop="16dp"
             android:text="Scan"
             android:textColor="#46B488"
+            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/logo" />
 
@@ -55,6 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="your ingredients"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.035"
             app:layout_constraintStart_toEndOf="@+id/textView5"
@@ -66,6 +62,7 @@
             android:layout_height="362dp"
             android:layout_marginTop="4dp"
             android:background="#46B488"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.489"
             app:layout_constraintStart_toStartOf="parent"
@@ -92,30 +89,57 @@
 
         </FrameLayout>
 
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/captureImageFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:backgroundTint="#46B488"
+            android:clickable="true"
+            android:contentDescription="@string/camera_button"
+            android:focusable="true"
+            app:cardCornerRadius="50dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.17000002">
+
+            <ImageView
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:contentDescription="@string/camera_button"
+                android:padding="25dp"
+                android:src="@drawable/ic_center_focus_camera"
+                app:tint="@color/cardview_light_background" />
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <Button
+            android:id="@+id/btnOpenGallery"
+            style="@style/Widget.Material3.Button.TextButton.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Open Gallery"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/captureImageFab" />
+
+
         <LinearLayout
             android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
             android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@+id/frameLayout"
-            android:paddingBottom="20dp">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/captureImageFab"
-                android:layout_width="176dp"
-                android:layout_height="48dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:backgroundTint="#46B488"
-                android:drawableLeft="@drawable/baseline_camera_alt_24"
-                android:text="Take picture" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnOpenGallery">
 
             <LinearLayout
                 android:id="@+id/llSampleImage"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="22dp"
                 android:gravity="center_horizontal"
                 android:orientation="horizontal">
 
@@ -154,16 +178,18 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
+            android:layout_marginTop="16dp"
             android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabLayout"
-                android:layout_width="330dp"
-                android:layout_height="52dp"
-                app:tabMode="fixed"
-                android:paddingBottom="20dp">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tabMode="fixed">
 
 
                 <com.google.android.material.tabs.TabItem
@@ -183,7 +209,7 @@
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewPager"
                 android:layout_width="match_parent"
-                android:layout_height="500dp"/>
+                android:layout_height="500dp" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.viewpager2.widget.ViewPager2
@@ -41,7 +42,7 @@ class HomeView(private val context: Context, viewGroup: ViewGroup?) : CView(), V
 
     private var tvPlaceholder: TextView
 
-    private var captureImageFab: Button
+    private var captureImageFab: CardView
 
     private var inputImageView: ImageView
     private var imgSampleOne: ImageView
