@@ -59,7 +59,7 @@ class RecipeFragment() : Fragment(),
     }
 
     private fun managerGetRecipe(ingredients: String) {
-        if (!isFetchingRecipes) {
+        if (!isFetchingRecipes && isAdded) {
             isFetchingRecipes = true
             val manager = RequestManager(requireContext())
             manager.getRecipes(recipeResponseListener, ingredients)
