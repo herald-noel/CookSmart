@@ -28,7 +28,7 @@ import com.google.android.material.tabs.TabLayout
 import org.tensorflow.lite.task.vision.detector.Detection
 import java.util.ArrayList
 
-class HomeView(private val context: Context, viewGroup: ViewGroup?) : CView(),
+class HomeView(private val context: Context, private val viewGroup: ViewGroup?) : CView(),
     View.OnClickListener {
     override val view: View = LayoutInflater.from(context).inflate(R.layout.activity_home, viewGroup)
     override val controller: HomeController
@@ -52,6 +52,7 @@ class HomeView(private val context: Context, viewGroup: ViewGroup?) : CView(),
     private var imgSampleOne: ImageView
     private var imgSampleTwo: ImageView
     private var imgSampleThree: ImageView
+    private var profileIcon: ImageView
 
     private var dialogView: View
 
@@ -68,6 +69,7 @@ class HomeView(private val context: Context, viewGroup: ViewGroup?) : CView(),
         tvPlaceholder = view.findViewById(R.id.tvPlaceholder)
         openGalleryBtn = view.findViewById(R.id.openGalleryBtn)
         addIngredientBtn = view.findViewById(R.id.addIngredientBtn)
+        profileIcon = view.findViewById(R.id.profile_icon)
         dialogView =
             LayoutInflater.from(getContext())
                 .inflate(R.layout.dialog_add_ingredient, viewGroup, false)
@@ -78,6 +80,7 @@ class HomeView(private val context: Context, viewGroup: ViewGroup?) : CView(),
         imgSampleThree.setOnClickListener(this)
         openGalleryBtn.setOnClickListener(this)
         addIngredientBtn.setOnClickListener(this)
+        profileIcon.setOnClickListener(this)
     }
 
     fun getIngredientSet(): LinkedHashSet<Ingredient> {
@@ -195,6 +198,9 @@ class HomeView(private val context: Context, viewGroup: ViewGroup?) : CView(),
 
             R.id.addIngredientBtn -> {
                 controller.showIngredientDialog()
+            }
+            R.id.profile_icon -> {
+                controller.openProfile()
             }
         }
     }
