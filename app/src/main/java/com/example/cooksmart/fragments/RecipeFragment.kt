@@ -2,6 +2,7 @@ package com.example.cooksmart.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,9 +20,15 @@ import com.example.cooksmart.api.listener.RecipeResponseListener
 import com.example.cooksmart.api.model.RecipeApiResponse
 import com.example.cooksmart.api.model.RecipeApiResponseItem
 import com.example.cooksmart.utils.ListToCommaSeparate
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.database
 
-class RecipeFragment() : Fragment(),
-    IngredientFragmentListener, RecipeAdapter.OnClickListener {
+class RecipeFragment() : Fragment(), IngredientFragmentListener, RecipeAdapter.OnClickListener {
     private lateinit var ingredientList: MutableList<Ingredient>
     private lateinit var recipeAdapter: RecipeAdapter
     private var lastIngredients: String? = null
@@ -89,7 +96,74 @@ class RecipeFragment() : Fragment(),
         intent.putExtra("recipeId", recipeItem.id)
         intent.putExtra("recipeName", recipeItem.title)
         intent.putExtra("recipeImageUrl", recipeItem.image)
+        addRecipeToHistory(recipeItem.id)
         startActivity(intent)
+    }
+
+    private fun addRecipeToHistory(id: Int) {
+        val mAuth = FirebaseAuth.getInstance()
+        val uid = mAuth.uid
+        Log.d("uid", uid.toString())
+        val databaseReference = Firebase.database.reference
+        uid?.let {
+            val recipeHistoryRef = databaseReference.child("users").child(it).child("recipeHistory")
+            recipeHistoryRef.orderByValue().equalTo(id.toDouble())
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if (snapshot.exists()) {
+                            Log.d("Recipe History", "RecipeId $id already exists in history.")
+                        } else {
+                            writeRecipeHistory(id, recipeHistoryRef)
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        Log.e("Recipe History", "Error checking recipe history: ${error.message}")
+                    }
+
+                })
+        }
+    }
+
+    fun writeRecipeHistory(id: Int, recipeHistoryRef: DatabaseReference) {
+        val newRecipeRef = recipeHistoryRef.push()
+        newRecipeRef.setValue(id).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.d(
+                        "Recipe History", "RecipeId $id added to history successfully."
+                    )
+                } else {
+                    Log.e(
+                        "Recipe History",
+                        "Failed to write recipeId $id to history: ${task.exception}"
+                    )
+                }
+            }
+    }
+
+    private fun retrieveRecipeHistory() {
+        val mAuth = FirebaseAuth.getInstance()
+        val uid = mAuth.uid
+        val databaseReference = Firebase.database.reference
+
+        uid?.let {
+            val recipeHistoryRef = databaseReference.child("users").child(it).child("recipeHistory")
+
+            recipeHistoryRef.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    // Iterate through the snapshot to get recipeIds
+                    for (childSnapshot in snapshot.children) {
+                        val recipeId = childSnapshot.getValue(Int::class.java)
+                        // Now you can use the recipeId as needed
+                        Log.d("Recipe Id", recipeId.toString())
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e("Recipe History", "Error retrieving recipe history: ${error.message}")
+                }
+            })
+        }
     }
 
     companion object {
