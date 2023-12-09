@@ -1,10 +1,8 @@
 package com.example.cooksmart.adapter
 
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.cooksmart.Ingredient
 import com.example.cooksmart.fragments.IngredientFragment
 import com.example.cooksmart.fragments.RecipeFragment
 

@@ -16,21 +16,22 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.ActivityCompat.startActivityForResult
+import android.widget.EditText
+import android.widget.Toast
 import androidx.core.content.FileProvider
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.LifecycleCoroutineScope
-import com.example.cooksmart.controller.base.Controller
-import com.example.cooksmart.model.home.HomeModel
-import com.example.cooksmart.view.home.HomeView
-import androidx.lifecycle.lifecycleScope
-import com.example.cooksmart.HomeActivity
+import com.example.cooksmart.data.Ingredient
 import com.example.cooksmart.R
+import com.example.cooksmart.controller.base.Controller
 import com.example.cooksmart.data.DetectionResult
+import com.example.cooksmart.listener.OnIngredientChangedListener
+import com.example.cooksmart.view.home.HomeView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.tensorflow.lite.support.image.TensorImage
+import org.tensorflow.lite.task.vision.detector.Detection
 import org.tensorflow.lite.task.vision.detector.ObjectDetector
 import java.io.File
 import java.io.IOException
@@ -41,7 +42,7 @@ import kotlin.math.min
 
 class HomeController(
     private val homeView: HomeView
-) : Controller() {
+) : Controller(), OnIngredientChangedListener {
     private lateinit var lifecycleScope: LifecycleCoroutineScope
     private lateinit var activity: Activity
     private lateinit var currentPhotoPath: String
@@ -98,7 +99,7 @@ class HomeController(
             homeView.getInputImageView().setImageBitmap(imgWithResult)
         }
 
-        homeView.ingredientAdd(results)
+        detectIngredient(results)
     }
 
     /**
@@ -130,7 +131,7 @@ class HomeController(
             pen.color = Color.YELLOW
             pen.strokeWidth = 2F
 
-            pen.textSize = HomeController.MAX_FONT_SIZE
+            pen.textSize = MAX_FONT_SIZE
             pen.getTextBounds(it.text, 0, it.text.length, tagSize)
             val fontSize: Float = pen.textSize * box.width() / tagSize.width()
 
@@ -302,13 +303,55 @@ class HomeController(
         MaterialAlertDialogBuilder(homeView.getContext())
             .setTitle("Ingredient")
             .setView(homeView.getDialogView())
-            .setNeutralButton("CANCEL") { dialog, which ->
+            .setNeutralButton("CANCEL") { _, _ ->
                 // Respond to neutral button press
             }
-            .setPositiveButton("ACCEPT") { dialog, which ->
-                // Respond to positive button press
-                val ingredientSet = homeView.getIngredientSet()
+            .setPositiveButton("ACCEPT") { _, _ ->
+                val userInputIngredient =
+                    homeView.getDialogView()
+                        .findViewById<EditText>(R.id.editTextIngredient).text
+                if (userInputIngredient.toString().isNotBlank()) {
+                    addIngredient(userInputIngredient.toString())
+                    userInputIngredient.clear()
+                }
             }
             .show()
+    }
+
+    private fun detectIngredient(results: List<Detection>) {
+        val ingredientSet = homeView.getIngredientSet()
+        val ingredientList = homeView.getIngredientList()
+        (homeView.getContext() as? Activity)?.runOnUiThread {
+            ingredientSet.clear()
+            ingredientList.clear()
+            for (obj in results) {
+                for (category in obj.categories) {
+                    ingredientSet.add(Ingredient(category.label.lowercase()))
+                }
+            }
+            ingredientList.addAll(ingredientSet)
+            homeView.setupViewPagerAndTabs(ingredientList)
+        }
+    }
+
+    private fun addIngredient(ingredient: String) {
+        val ingredientSet = homeView.getIngredientSet()
+        val ingredientList = homeView.getIngredientList()
+        val newIngredient = Ingredient(ingredient.lowercase())
+        if (ingredientSet.add(newIngredient)) {
+            ingredientList.add(newIngredient)
+            for (ing in ingredientList) {
+                Log.d("INGREDIENT", ing.name)
+            }
+            homeView.setupViewPagerAndTabs(ingredientList)
+        } else {
+            Toast.makeText(homeView.getContext(), "Ingredient already exist.", Toast.LENGTH_SHORT)
+                .show()
+        }
+    }
+
+    override fun onRemoveIngredient(ingredients: ArrayList<Ingredient>) {
+        homeView.setIngredientList(ingredients)
+        homeView.setIngredientSet(LinkedHashSet(ingredients))
     }
 }

@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.cooksmart.data.Ingredient
 
 class IngredientAdapter(
     private val ingredientList: MutableList<Ingredient>,

@@ -1,6 +1,6 @@
 package com.example.cooksmart.utils
 
-import com.example.cooksmart.Ingredient
+import com.example.cooksmart.data.Ingredient
 
 
 class ListToCommaSeparate {

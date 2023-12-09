@@ -58,7 +58,7 @@ class RecipeView(val context: Context, viewGroup: ViewGroup?) : CView(), IRecipe
     }
 
     fun setAdapter(response: InstructionsResponse) {
-       recyclerView.adapter = DirectionAdapter(response[0].steps)
+       recyclerView.adapter = DirectionAdapter(context, response[0].steps)
     }
 
 }

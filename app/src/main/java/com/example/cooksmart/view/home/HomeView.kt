@@ -15,7 +15,7 @@ import androidx.cardview.widget.CardView
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.viewpager2.widget.ViewPager2
-import com.example.cooksmart.Ingredient
+import com.example.cooksmart.data.Ingredient
 import com.example.cooksmart.R
 import com.example.cooksmart.adapter.ViewPagerAdapter
 import com.example.cooksmart.controller.home.HomeController
@@ -28,14 +28,14 @@ import com.google.android.material.tabs.TabLayout
 import org.tensorflow.lite.task.vision.detector.Detection
 import java.util.ArrayList
 
-class HomeView(private val context: Context, private val viewGroup: ViewGroup?) : CView(),
+class HomeView(private val context: Context, viewGroup: ViewGroup?) : CView(),
     View.OnClickListener {
-    override val view: View
+    override val view: View = LayoutInflater.from(context).inflate(R.layout.activity_home, viewGroup)
     override val controller: HomeController
     override val model: Model
 
-    private val ingredientSet: LinkedHashSet<Ingredient> = LinkedHashSet()
-    private val ingredientList: ArrayList<Ingredient> = ArrayList()
+    private var ingredientSet: LinkedHashSet<Ingredient> = LinkedHashSet()
+    private var ingredientList: ArrayList<Ingredient> = ArrayList()
 
     private var openGalleryBtn: Button
     private var addIngredientBtn: Button
@@ -55,12 +55,9 @@ class HomeView(private val context: Context, private val viewGroup: ViewGroup?) 
 
     private var dialogView: View
 
-
     init {
-        view = LayoutInflater.from(context).inflate(R.layout.activity_home, viewGroup)
         model = HomeModel()
         controller = HomeController(this)
-
         tabLayout = view.findViewById(R.id.tabLayout)
         viewPager2 = view.findViewById(R.id.viewPager)
         captureImageFab = view.findViewById(R.id.captureImageFab)
@@ -87,8 +84,11 @@ class HomeView(private val context: Context, private val viewGroup: ViewGroup?) 
         return ingredientSet
     }
 
-    fun getDialogView(): View {
+    fun getIngredientList(): ArrayList<Ingredient> {
+        return ingredientList
+    }
 
+    fun getDialogView(): View {
         return dialogView
     }
 
@@ -116,6 +116,14 @@ class HomeView(private val context: Context, private val viewGroup: ViewGroup?) 
         controller.setActivity(activity)
     }
 
+    fun setIngredientList(ingredientList: ArrayList<Ingredient>) {
+        this.ingredientList = ingredientList
+    }
+
+    fun setIngredientSet(ingredientSet: LinkedHashSet<Ingredient>) {
+        this.ingredientSet = ingredientSet
+    }
+
     fun detectImage(bitmap: Bitmap) {
         controller.setViewAndDetect(bitmap)
     }
@@ -124,10 +132,10 @@ class HomeView(private val context: Context, private val viewGroup: ViewGroup?) 
         return view
     }
 
-    private fun setupViewPagerAndTabs(ingredientList: ArrayList<Ingredient>) {
+    fun setupViewPagerAndTabs(ingredientList: ArrayList<Ingredient>) {
         // Pass the ingredientList to the ViewPagerAdapter
-        val ingredientFragment = IngredientFragment(ingredientList)
-        val recipeFragment = RecipeFragment(ingredientList)
+        val ingredientFragment = IngredientFragment(ingredientList, controller)
+        val recipeFragment = RecipeFragment.newInstance(ingredientList)
         ingredientFragment.setIngredientFragmentListener(recipeFragment)
         viewPager2.adapter =
             ViewPagerAdapter(context as FragmentActivity, ingredientFragment, recipeFragment)
@@ -149,22 +157,6 @@ class HomeView(private val context: Context, private val viewGroup: ViewGroup?) 
                 tabLayout.selectTab(tabLayout.getTabAt(position))
             }
         })
-    }
-
-    fun ingredientAdd(results: List<Detection>) {
-        (context as? Activity)?.runOnUiThread {
-            ingredientSet.clear()
-            ingredientList.clear()
-            for (obj in results) {
-                for ((j, category) in obj.categories.withIndex()) {
-                    Log.d(HomeController.TAG, "    $j: ${category.label}")
-
-                    ingredientSet.add(Ingredient(category.label))
-                }
-            }
-            ingredientList.addAll(ingredientSet)
-            setupViewPagerAndTabs(ingredientList)
-        }
     }
 
     fun setControllerViewAndDetect(capturedImage: Bitmap) {
