@@ -19,6 +19,7 @@ import com.example.cooksmart.api.RequestManager
 import com.example.cooksmart.api.listener.RecipeResponseListener
 import com.example.cooksmart.api.model.RecipeApiResponse
 import com.example.cooksmart.api.model.RecipeApiResponseItem
+import com.example.cooksmart.data.Recipe
 import com.example.cooksmart.utils.ListToCommaSeparate
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
@@ -28,7 +29,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.database
 
-class RecipeFragment() : Fragment(), IngredientFragmentListener, RecipeAdapter.OnClickListener {
+class RecipeFragment : Fragment(), IngredientFragmentListener, RecipeAdapter.OnClickListener {
     private lateinit var ingredientList: MutableList<Ingredient>
     private lateinit var recipeAdapter: RecipeAdapter
     private var lastIngredients: String? = null
@@ -96,49 +97,59 @@ class RecipeFragment() : Fragment(), IngredientFragmentListener, RecipeAdapter.O
         intent.putExtra("recipeId", recipeItem.id)
         intent.putExtra("recipeName", recipeItem.title)
         intent.putExtra("recipeImageUrl", recipeItem.image)
-        addRecipeToHistory(recipeItem.id)
+        val recipe = Recipe(recipeItem.id, recipeItem.title, recipeItem.image)
+        addRecipeToHistory(recipe)
         startActivity(intent)
     }
 
-    private fun addRecipeToHistory(id: Int) {
+    private fun addRecipeToHistory(recipe: Recipe) {
         val mAuth = FirebaseAuth.getInstance()
         val uid = mAuth.uid
         Log.d("uid", uid.toString())
         val databaseReference = Firebase.database.reference
         uid?.let {
             val recipeHistoryRef = databaseReference.child("users").child(it).child("recipeHistory")
-            recipeHistoryRef.orderByValue().equalTo(id.toDouble())
-                .addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        if (snapshot.exists()) {
-                            Log.d("Recipe History", "RecipeId $id already exists in history.")
-                        } else {
-                            writeRecipeHistory(id, recipeHistoryRef)
+            recipeHistoryRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    var isDuplicate = false
+                    for (childSnapshot in snapshot.children) {
+                        val existingRecipeId = childSnapshot.child("id").getValue(Int::class.java)
+                        println(existingRecipeId)
+                        if (existingRecipeId == recipe.id) {
+                            // Duplicate found
+                            isDuplicate = true
+                            break
                         }
                     }
-
-                    override fun onCancelled(error: DatabaseError) {
-                        Log.e("Recipe History", "Error checking recipe history: ${error.message}")
+                    if (!isDuplicate) {
+                        writeRecipeHistory(recipe, recipeHistoryRef)
+                    } else {
+                        Log.d("Recipe History", "RecipeId ${recipe.id} already exists in history.")
                     }
+                }
 
-                })
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e("Recipe History", "Error checking recipe history: ${error.message}")
+                }
+
+            })
         }
     }
 
-    fun writeRecipeHistory(id: Int, recipeHistoryRef: DatabaseReference) {
+    fun writeRecipeHistory(recipe: Recipe, recipeHistoryRef: DatabaseReference) {
         val newRecipeRef = recipeHistoryRef.push()
-        newRecipeRef.setValue(id).addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Log.d(
-                        "Recipe History", "RecipeId $id added to history successfully."
-                    )
-                } else {
-                    Log.e(
-                        "Recipe History",
-                        "Failed to write recipeId $id to history: ${task.exception}"
-                    )
-                }
+        newRecipeRef.setValue(recipe).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Log.d(
+                    "Recipe History", "RecipeId $recipe added to history successfully."
+                )
+            } else {
+                Log.e(
+                    "Recipe History",
+                    "Failed to write recipeId $recipe to history: ${task.exception}"
+                )
             }
+        }
     }
 
     private fun retrieveRecipeHistory() {
@@ -153,9 +164,7 @@ class RecipeFragment() : Fragment(), IngredientFragmentListener, RecipeAdapter.O
                 override fun onDataChange(snapshot: DataSnapshot) {
                     // Iterate through the snapshot to get recipeIds
                     for (childSnapshot in snapshot.children) {
-                        val recipeId = childSnapshot.getValue(Int::class.java)
-                        // Now you can use the recipeId as needed
-                        Log.d("Recipe Id", recipeId.toString())
+                        val recipeId = childSnapshot.child("id").getValue(Int::class.java)
                     }
                 }
 
