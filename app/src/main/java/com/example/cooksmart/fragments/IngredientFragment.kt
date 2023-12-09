@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.cooksmart.Ingredient
+import com.example.cooksmart.data.Ingredient
 import com.example.cooksmart.IngredientAdapter
 import com.example.cooksmart.IngredientFragmentListener
 import com.example.cooksmart.R

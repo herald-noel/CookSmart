@@ -21,7 +21,7 @@ import android.widget.Toast
 import androidx.core.content.FileProvider
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.LifecycleCoroutineScope
-import com.example.cooksmart.Ingredient
+import com.example.cooksmart.data.Ingredient
 import com.example.cooksmart.R
 import com.example.cooksmart.controller.base.Controller
 import com.example.cooksmart.data.DetectionResult
@@ -309,9 +309,10 @@ class HomeController(
             .setPositiveButton("ACCEPT") { _, _ ->
                 val userInputIngredient =
                     homeView.getDialogView()
-                        .findViewById<EditText>(R.id.editTextIngredient).text.toString()
-                if (userInputIngredient.isNotBlank()) {
-                    addIngredient(userInputIngredient)
+                        .findViewById<EditText>(R.id.editTextIngredient).text
+                if (userInputIngredient.toString().isNotBlank()) {
+                    addIngredient(userInputIngredient.toString())
+                    userInputIngredient.clear()
                 }
             }
             .show()

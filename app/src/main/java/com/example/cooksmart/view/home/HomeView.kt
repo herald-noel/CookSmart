@@ -9,14 +9,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.viewpager2.widget.ViewPager2
-import com.example.cooksmart.Ingredient
+import com.example.cooksmart.data.Ingredient
 import com.example.cooksmart.R
 import com.example.cooksmart.adapter.ViewPagerAdapter
 import com.example.cooksmart.controller.home.HomeController
@@ -136,7 +135,7 @@ class HomeView(private val context: Context, private val viewGroup: ViewGroup?) 
     fun setupViewPagerAndTabs(ingredientList: ArrayList<Ingredient>) {
         // Pass the ingredientList to the ViewPagerAdapter
         val ingredientFragment = IngredientFragment(ingredientList, controller)
-        val recipeFragment = RecipeFragment(ingredientList)
+        val recipeFragment = RecipeFragment.newInstance(ingredientList)
         ingredientFragment.setIngredientFragmentListener(recipeFragment)
         viewPager2.adapter =
             ViewPagerAdapter(context as FragmentActivity, ingredientFragment, recipeFragment)
