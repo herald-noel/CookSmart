@@ -21,6 +21,7 @@ import android.widget.Toast
 import androidx.core.content.FileProvider
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.LifecycleCoroutineScope
+import com.example.cooksmart.ProfileActivity
 import com.example.cooksmart.data.Ingredient
 import com.example.cooksmart.R
 import com.example.cooksmart.controller.base.Controller
@@ -353,5 +354,10 @@ class HomeController(
     override fun onRemoveIngredient(ingredients: ArrayList<Ingredient>) {
         homeView.setIngredientList(ingredients)
         homeView.setIngredientSet(LinkedHashSet(ingredients))
+    }
+
+    fun openProfile(){
+        val intent = Intent(homeView.getContext(), ProfileActivity::class.java)
+        activity.startActivity(intent)
     }
 }
