@@ -28,7 +28,7 @@ import com.google.android.material.tabs.TabLayout
 import org.tensorflow.lite.task.vision.detector.Detection
 import java.util.ArrayList
 
-class HomeView(private val context: Context, private val viewGroup: ViewGroup?) : CView(),
+class HomeView(private val context: Context, viewGroup: ViewGroup?) : CView(),
     View.OnClickListener {
     override val view: View = LayoutInflater.from(context).inflate(R.layout.activity_home, viewGroup)
     override val controller: HomeController
@@ -157,22 +157,6 @@ class HomeView(private val context: Context, private val viewGroup: ViewGroup?) 
                 tabLayout.selectTab(tabLayout.getTabAt(position))
             }
         })
-    }
-
-    fun ingredientAdd(results: List<Detection>) {
-        (context as? Activity)?.runOnUiThread {
-            ingredientSet.clear()
-            ingredientList.clear()
-            for (obj in results) {
-                for ((j, category) in obj.categories.withIndex()) {
-                    Log.d(HomeController.TAG, "    $j: ${category.label}")
-
-                    ingredientSet.add(Ingredient(category.label))
-                }
-            }
-            ingredientList.addAll(ingredientSet)
-            setupViewPagerAndTabs(ingredientList)
-        }
     }
 
     fun setControllerViewAndDetect(capturedImage: Bitmap) {
