@@ -10,38 +10,36 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabLayout2"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/recipeCard"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tabMode="fixed">
+            app:layout_constraintTop_toTopOf="parent">
 
-            <com.google.android.material.tabs.TabItem
+            <ImageView
+                android:id="@+id/recipeIV"
+                android:layout_width="match_parent"
+                android:layout_height="304dp"
+                android:contentDescription="@string/recipe_thumbnail"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.666"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/image_placeholder" />
+
+            <Button
+                android:id="@+id/addFavoriteBtn"
+                style="@style/Widget.Material3.Button.ElevatedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Instructions" />
+                android:layout_gravity="bottom|end"
+                android:layout_marginEnd="5dp"
+                android:text="@string/add_to_favorites" />
+        </com.google.android.material.card.MaterialCardView>
 
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ingredients" />
-        </com.google.android.material.tabs.TabLayout>
-
-
-        <ImageView
-            android:id="@+id/recipeIV"
-            android:layout_width="match_parent"
-            android:layout_height="304dp"
-            android:layout_marginTop="60dp"
-            android:scaleType="centerCrop"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.666"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/image_placeholder" />
 
         <LinearLayout
             android:id="@+id/linearLayout"
@@ -51,31 +49,20 @@
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recipeIV">
+            app:layout_constraintTop_toBottomOf="@+id/recipeCard">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/recipeNTV"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/recipeNTV"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:text="PIZZA"
-                    android:textColor="#000000"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recipeIV" />
-
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:button="@drawable/selector_favorite_recipe" />
-            </LinearLayout>
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="PIZZA"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/recipeIV" />
 
             <TextView
                 android:id="@+id/textView2"
