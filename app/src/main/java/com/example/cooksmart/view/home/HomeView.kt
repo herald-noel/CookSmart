@@ -35,8 +35,8 @@ class HomeView(private val context: Context, private val viewGroup: ViewGroup?) 
     override val controller: HomeController
     override val model: Model
 
-    private val ingredientSet: LinkedHashSet<Ingredient> = LinkedHashSet()
-    private val ingredientList: ArrayList<Ingredient> = ArrayList()
+    private var ingredientSet: LinkedHashSet<Ingredient> = LinkedHashSet()
+    private var ingredientList: ArrayList<Ingredient> = ArrayList()
 
     private var openGalleryBtn: Button
     private var addIngredientBtn: Button
@@ -117,6 +117,14 @@ class HomeView(private val context: Context, private val viewGroup: ViewGroup?) 
         controller.setActivity(activity)
     }
 
+    fun setIngredientList(ingredientList: ArrayList<Ingredient>) {
+        this.ingredientList = ingredientList
+    }
+
+    fun setIngredientSet(ingredientSet: LinkedHashSet<Ingredient>) {
+        this.ingredientSet = ingredientSet
+    }
+
     fun detectImage(bitmap: Bitmap) {
         controller.setViewAndDetect(bitmap)
     }
@@ -127,7 +135,7 @@ class HomeView(private val context: Context, private val viewGroup: ViewGroup?) 
 
     fun setupViewPagerAndTabs(ingredientList: ArrayList<Ingredient>) {
         // Pass the ingredientList to the ViewPagerAdapter
-        val ingredientFragment = IngredientFragment(ingredientList)
+        val ingredientFragment = IngredientFragment(ingredientList, controller)
         val recipeFragment = RecipeFragment(ingredientList)
         ingredientFragment.setIngredientFragmentListener(recipeFragment)
         viewPager2.adapter =

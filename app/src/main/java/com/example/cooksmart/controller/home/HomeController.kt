@@ -25,6 +25,7 @@ import com.example.cooksmart.Ingredient
 import com.example.cooksmart.R
 import com.example.cooksmart.controller.base.Controller
 import com.example.cooksmart.data.DetectionResult
+import com.example.cooksmart.listener.OnIngredientChangedListener
 import com.example.cooksmart.view.home.HomeView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
@@ -41,7 +42,7 @@ import kotlin.math.min
 
 class HomeController(
     private val homeView: HomeView
-) : Controller() {
+) : Controller(), OnIngredientChangedListener {
     private lateinit var lifecycleScope: LifecycleCoroutineScope
     private lateinit var activity: Activity
     private lateinit var currentPhotoPath: String
@@ -307,7 +308,8 @@ class HomeController(
             }
             .setPositiveButton("ACCEPT") { _, _ ->
                 val userInputIngredient =
-                    homeView.getDialogView().findViewById<EditText>(R.id.editTextIngredient).text.toString()
+                    homeView.getDialogView()
+                        .findViewById<EditText>(R.id.editTextIngredient).text.toString()
                 if (userInputIngredient.isNotBlank()) {
                     addIngredient(userInputIngredient)
                 }
@@ -323,7 +325,7 @@ class HomeController(
             ingredientList.clear()
             for (obj in results) {
                 for (category in obj.categories) {
-                    ingredientSet.add(Ingredient(category.label))
+                    ingredientSet.add(Ingredient(category.label.lowercase()))
                 }
             }
             ingredientList.addAll(ingredientSet)
@@ -334,7 +336,7 @@ class HomeController(
     private fun addIngredient(ingredient: String) {
         val ingredientSet = homeView.getIngredientSet()
         val ingredientList = homeView.getIngredientList()
-        val newIngredient = Ingredient(ingredient)
+        val newIngredient = Ingredient(ingredient.lowercase())
         if (ingredientSet.add(newIngredient)) {
             ingredientList.add(newIngredient)
             for (ing in ingredientList) {
@@ -345,5 +347,10 @@ class HomeController(
             Toast.makeText(homeView.getContext(), "Ingredient already exist.", Toast.LENGTH_SHORT)
                 .show()
         }
+    }
+
+    override fun onRemoveIngredient(ingredients: ArrayList<Ingredient>) {
+        homeView.setIngredientList(ingredients)
+        homeView.setIngredientSet(LinkedHashSet(ingredients))
     }
 }

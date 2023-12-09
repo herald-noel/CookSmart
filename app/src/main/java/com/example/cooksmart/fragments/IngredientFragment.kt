@@ -1,8 +1,6 @@
 package com.example.cooksmart.fragments
 
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,16 +11,21 @@ import com.example.cooksmart.Ingredient
 import com.example.cooksmart.IngredientAdapter
 import com.example.cooksmart.IngredientFragmentListener
 import com.example.cooksmart.R
+import com.example.cooksmart.listener.OnIngredientChangedListener
 
-class IngredientFragment(ingredientList: ArrayList<Ingredient>) : Fragment(), IngredientAdapter.OnRemoveClickListener {
+class IngredientFragment(
+    ingredientList: ArrayList<Ingredient>,
+    private val onIngredientChangedListener: OnIngredientChangedListener
+) : Fragment(), IngredientAdapter.OnRemoveClickListener {
 
-    private  var ingredientList: MutableList<Ingredient> = ingredientList
+    private var ingredientList: MutableList<Ingredient> = ingredientList
     private lateinit var adapter: IngredientAdapter
     private var listener: IngredientFragmentListener? = null
 
     fun setIngredientFragmentListener(listener: IngredientFragmentListener) {
         this.listener = listener
     }
+
     private fun notifyRecipe(updateIngredient: MutableList<Ingredient>) {
         listener?.onIngredientChange(updateIngredient)
     }
@@ -51,6 +54,7 @@ class IngredientFragment(ingredientList: ArrayList<Ingredient>) : Fragment(), In
         ingredientList.removeAt(position)
 
         notifyRecipe(ingredientList)
+        onIngredientChangedListener.onRemoveIngredient(ArrayList(ingredientList))
 
         // Notify the adapter about the removal
         adapter.notifyItemRemoved(position)
