@@ -46,11 +46,10 @@ class FavoriteRecipeAdapter(
             .into(holder.recipeImg)
 
         holder.recipeCardView.setOnClickListener {
-            onClickedFavoriteRecipeListener.onRecipeClicked(position)
+            onClickedFavoriteRecipeListener.onRecipeClicked(holder.adapterPosition)
         }
         holder.removeBtn.setOnClickListener {
-            favoriteRecipes.removeAt(holder.adapterPosition)
-            notifyItemRemoved(holder.adapterPosition)
+            onClickedFavoriteRecipeListener.onRemove(holder.adapterPosition)
         }
     }
 }
