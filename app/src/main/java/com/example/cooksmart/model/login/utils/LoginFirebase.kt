@@ -5,9 +5,8 @@ import com.example.cooksmart.model.login.data.LoggedInUser
 import com.google.firebase.auth.FirebaseAuth
 import java.io.IOException
 
-class LoginDataSource {
+class LoginFirebase {
     private val mAuth = FirebaseAuth.getInstance()
-
     fun login(email: String, password: String, callback: (Result<LoggedInUser>) -> Unit) {
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
@@ -20,9 +19,5 @@ class LoginDataSource {
                 callback(error)
             }
         }
-    }
-
-    fun logout() {
-        mAuth.signOut()
     }
 }
