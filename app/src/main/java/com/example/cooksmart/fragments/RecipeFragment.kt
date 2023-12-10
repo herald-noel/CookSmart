@@ -165,6 +165,9 @@ class RecipeFragment : Fragment(), IngredientFragmentListener, RecipeAdapter.OnC
                     // Iterate through the snapshot to get recipeIds
                     for (childSnapshot in snapshot.children) {
                         val recipeId = childSnapshot.child("id").getValue(Int::class.java)
+                        val imgUrl = childSnapshot.child("imgUrl").getValue(String::class.java)
+                        val name = childSnapshot.child("name").getValue(String::class.java)
+                        Log.d("RECIPE FROM FIREBASE", "$recipeId, $imgUrl, $name")
                     }
                 }
 
