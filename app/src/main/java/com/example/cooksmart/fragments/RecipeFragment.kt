@@ -62,15 +62,15 @@ class RecipeFragment : Fragment(), IngredientFragmentListener, RecipeAdapter.OnC
         recyclerview.adapter = recipeAdapter
         if (ingredients != lastIngredients) {
             lastIngredients = ingredients
-            managerGetRecipe(ingredients)
+            managerGetRecipe(ingredients, 50)
         }
     }
 
-    private fun managerGetRecipe(ingredients: String) {
+    private fun managerGetRecipe(ingredients: String, number: Int = 10) {
         if (!isFetchingRecipes && isAdded) {
             isFetchingRecipes = true
             val manager = RequestManager(requireContext())
-            manager.getRecipes(recipeResponseListener, ingredients)
+            manager.getRecipes(recipeResponseListener, ingredients, number)
         }
     }
 
