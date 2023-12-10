@@ -38,22 +38,27 @@ class RecipeController(
                     for (childSnapshot in snapshot.children) {
                         val existingRecipeId = childSnapshot.child("id").getValue(Int::class.java)
                         if (existingRecipeId == recipe.id) {
-                            Toast.makeText(
-                                recipeView.context,
-                                "Already added in favorites.",
-                                Toast.LENGTH_SHORT
-                            ).show()
                             isDuplicate = true
                             break
                         }
                     }
                     if (!isDuplicate) {
                         writeRecipeFavorite(recipe, recipeHistoryRef)
+                        Toast.makeText(
+                            recipeView.context,
+                            "Successfully added to favorites.",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     } else {
                         Log.d(
                             "Recipe Favorite",
                             "RecipeId ${recipe.id} already exists in favorites."
                         )
+                        Toast.makeText(
+                            recipeView.context,
+                            "Already added in favorites.",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
 
