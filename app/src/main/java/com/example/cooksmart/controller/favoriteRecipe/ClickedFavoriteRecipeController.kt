@@ -2,9 +2,12 @@ package com.example.cooksmart.controller.favoriteRecipe
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.util.Log
+import com.example.cooksmart.RecipeActivity
 import com.example.cooksmart.controller.base.Controller
 import com.example.cooksmart.data.Recipe
+import com.example.cooksmart.listener.OnClickedFavoriteRecipeListener
 import com.example.cooksmart.view.favoriteRecipe.FavoriteRecipeView
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
@@ -13,7 +16,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.database
 
-class FavoriteRecipeController(private val favoriteRecipeView: FavoriteRecipeView) : Controller() {
+class ClickedFavoriteRecipeController(private val favoriteRecipeView: FavoriteRecipeView) : Controller(), OnClickedFavoriteRecipeListener {
     val favoriteRecipes: ArrayList<Recipe> = ArrayList()
 
     fun retrieveRecipeFavorites() {
@@ -55,9 +58,22 @@ class FavoriteRecipeController(private val favoriteRecipeView: FavoriteRecipeVie
         favoriteRecipes.add(recipe)
     }
 
-    fun redirectPreviousActivity(context: Context) {
-        if (context is Activity) {
-            context.finish()
+    fun redirectPreviousActivity() {
+        if (favoriteRecipeView.context is Activity) {
+            favoriteRecipeView.context.finish()
+        }
+    }
+
+    override fun onRecipeClicked(position: Int) {
+        val recipeItem = favoriteRecipes[position]
+
+        val intent = Intent(favoriteRecipeView.context, RecipeActivity::class.java)
+        intent.putExtra("recipeId", recipeItem.id)
+        intent.putExtra("recipeName", recipeItem.title)
+        intent.putExtra("recipeImageUrl", recipeItem.image)
+        intent.putExtra("recipeImgType", recipeItem.imageType)
+        if (favoriteRecipeView.context is Activity) {
+            favoriteRecipeView.context.startActivity(intent)
         }
     }
 }
