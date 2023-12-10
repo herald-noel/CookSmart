@@ -3,6 +3,7 @@ package com.example.cooksmart.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
@@ -22,6 +23,7 @@ class FavoriteRecipeAdapter(
         val recipeName: TextView = itemView.findViewById(R.id.favoriteRecipeName)
         val recipeImg: ImageView = itemView.findViewById(R.id.favoriteRecipeImg)
         val recipeId: TextView = itemView.findViewById(R.id.favoriteRecipeId)
+        val removeBtn: ImageButton = itemView.findViewById(R.id.favorite_icon_remove)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -45,6 +47,11 @@ class FavoriteRecipeAdapter(
 
         holder.recipeCardView.setOnClickListener {
            onClickedFavoriteRecipeListener.onRecipeClicked(position)
+        }
+
+        holder.removeBtn.setOnClickListener {
+            onClickedFavoriteRecipeListener.onRemove(position)
+            notifyItemRemoved(position)
         }
     }
 }

@@ -15,7 +15,8 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.database
 
-class FavoriteRecipeController(private val favoriteRecipeView: FavoriteRecipeView) : Controller(), OnClickedFavoriteRecipeListener {
+class FavoriteRecipeController(private val favoriteRecipeView: FavoriteRecipeView) : Controller(),
+    OnClickedFavoriteRecipeListener {
     val favoriteRecipes: ArrayList<Recipe> = ArrayList()
 
     fun retrieveRecipeFavorites() {
@@ -28,7 +29,6 @@ class FavoriteRecipeController(private val favoriteRecipeView: FavoriteRecipeVie
                 databaseReference.child("users").child(it).child("recipeFavorites")
             recipeHistoryRef.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    // Iterate through the snapshot to get recipeIds
                     for (childSnapshot in snapshot.children) {
                         getSnapShot(childSnapshot)
                     }
@@ -41,9 +41,7 @@ class FavoriteRecipeController(private val favoriteRecipeView: FavoriteRecipeVie
                     Log.e("Recipe History", "Error retrieving recipe history: ${error.message}")
                 }
             })
-
         }
-
     }
 
     fun getSnapShot(childSnapshot: DataSnapshot) {
@@ -75,5 +73,45 @@ class FavoriteRecipeController(private val favoriteRecipeView: FavoriteRecipeVie
         if (favoriteRecipeView.context is Activity) {
             favoriteRecipeView.context.startActivity(intent)
         }
+    }
+
+    override fun onRemove(position: Int) {
+        val removeRecipe = favoriteRecipeView.getFavoriteRecipeList()[position]
+        favoriteRecipeView.getFavoriteRecipeList().removeAt(position)
+        removeFavoriteRecipeFirebase(removeRecipe.id)
+    }
+
+    private fun removeFavoriteRecipeFirebase(recipeId: Int) {
+        val mAuth = FirebaseAuth.getInstance()
+        val uid = mAuth.uid
+        val databaseReference = Firebase.database.reference
+
+        uid?.let {
+            val recipeHistoryRef =
+                databaseReference.child("users").child(it).child("recipeFavorites")
+            recipeHistoryRef.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for (childSnapshot in snapshot.children) {
+                        val key = getRecipeKey(childSnapshot, recipeId)
+                        if (key != null) {
+                            // TODO remove from firebase
+                            break
+                        }
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e("Recipe History", "Error retrieving recipe history: ${error.message}")
+                }
+            })
+        }
+    }
+
+    private fun getRecipeKey(childSnapshot: DataSnapshot, recipeId: Int): String? {
+        val currentRecipeId = childSnapshot.child("id").getValue(Int::class.java) ?: 0
+        if (recipeId == currentRecipeId) {
+            return childSnapshot.key
+        }
+        return null
     }
 }

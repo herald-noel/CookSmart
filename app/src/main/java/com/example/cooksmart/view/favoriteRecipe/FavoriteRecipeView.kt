@@ -23,6 +23,7 @@ class FavoriteRecipeView(val context: Context, viewGroup: ViewGroup?) : CView() 
 
     private val favoriteRecipeRecyclerView: RecyclerView
     private val backBtn: ImageButton
+    private var favoriteRecipes: ArrayList<Recipe> = ArrayList()
 
 
     init {
@@ -40,7 +41,16 @@ class FavoriteRecipeView(val context: Context, viewGroup: ViewGroup?) : CView() 
         return view
     }
 
+    fun getFavoriteRecipeList(): ArrayList<Recipe> {
+        return favoriteRecipes
+    }
+
+    fun getAdapter() {
+
+    }
+
     fun showFavoriteRecipes(favoriteRecipes: ArrayList<Recipe>) {
+        this.favoriteRecipes = favoriteRecipes
         favoriteRecipeRecyclerView.layoutManager = LinearLayoutManager(context)
         favoriteRecipeRecyclerView.adapter = FavoriteRecipeAdapter(favoriteRecipes, controller)
     }
@@ -50,8 +60,8 @@ class FavoriteRecipeView(val context: Context, viewGroup: ViewGroup?) : CView() 
     }
 
     private fun backButtonListener() {
-       backBtn.setOnClickListener{
-           controller.redirectPreviousActivity()
-       }
+        backBtn.setOnClickListener {
+            controller.redirectPreviousActivity()
+        }
     }
 }
