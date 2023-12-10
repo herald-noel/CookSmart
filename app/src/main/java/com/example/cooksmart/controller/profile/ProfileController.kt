@@ -108,6 +108,9 @@ class ProfileController(
     fun redirectFavoriteRecipes(context: Context) {
         val intent = Intent(context, FavoriteRecipeActivity::class.java)
         context.startActivity(intent)
+        if (context is Activity) {
+            context.finish()
+        }
     }
 
     fun showFavoriteRecipesThumbnail() {
