@@ -154,6 +154,7 @@ class HomeController(
      *      Set image to view and call object detection
      */
     fun setViewAndDetect(bitmap: Bitmap) {
+        homeView.getProgressHome().visibility = View.VISIBLE
         // Display capture image
         homeView.getInputImageView().setImageBitmap(bitmap)
         homeView.getTvPlaceholder().visibility = View.INVISIBLE

@@ -24,6 +24,7 @@ import com.example.cooksmart.fragments.RecipeFragment
 import com.example.cooksmart.model.base.Model
 import com.example.cooksmart.model.home.HomeModel
 import com.example.cooksmart.view.base.CView
+import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.android.material.tabs.TabLayout
 import org.tensorflow.lite.task.vision.detector.Detection
 import java.util.ArrayList
@@ -56,6 +57,7 @@ class HomeView(private val context: Context, private val viewGroup: ViewGroup?) 
     private var profileIcon: ImageView
 
     private var dialogView: View
+    private var progress: LinearProgressIndicator
 
     init {
         model = HomeModel()
@@ -74,6 +76,8 @@ class HomeView(private val context: Context, private val viewGroup: ViewGroup?) 
         dialogView =
             LayoutInflater.from(getContext())
                 .inflate(R.layout.dialog_add_ingredient, viewGroup, false)
+        progress = view.findViewById(R.id.progressHome)
+        progress.visibility = View.INVISIBLE
 
         captureImageFab.setOnClickListener(this)
         imgSampleOne.setOnClickListener(this)
@@ -86,6 +90,10 @@ class HomeView(private val context: Context, private val viewGroup: ViewGroup?) 
 
     fun getIngredientSet(): LinkedHashSet<Ingredient> {
         return ingredientSet
+    }
+
+    fun getProgressHome(): LinearProgressIndicator {
+        return progress
     }
 
     fun getIngredientList(): ArrayList<Ingredient> {
@@ -138,6 +146,7 @@ class HomeView(private val context: Context, private val viewGroup: ViewGroup?) 
 
     fun setupViewPagerAndTabs(ingredientList: ArrayList<Ingredient>) {
         // Pass the ingredientList to the ViewPagerAdapter
+        progress.visibility = View.INVISIBLE
         val ingredientFragment = IngredientFragment.newInstance(ingredientList)
         val recipeFragment = RecipeFragment.newInstance(ingredientList)
         ingredientFragment.setIngredientFragmentListener(recipeFragment)
