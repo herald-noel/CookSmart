@@ -76,7 +76,9 @@ class RecipeView(
     }
 
     fun setAdapter(response: InstructionsResponse) {
-        recyclerView.adapter = DirectionAdapter(context, response[0].steps)
+        if (response.isNotEmpty() && response[0].steps.isNotEmpty()) {
+            recyclerView.adapter = DirectionAdapter(context, response[0].steps)
+        }
     }
 
     private fun favoriteBtnListener() {
