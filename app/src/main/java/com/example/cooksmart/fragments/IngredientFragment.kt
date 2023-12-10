@@ -13,17 +13,19 @@ import com.example.cooksmart.IngredientFragmentListener
 import com.example.cooksmart.R
 import com.example.cooksmart.listener.OnIngredientChangedListener
 
-class IngredientFragment(
-    ingredientList: ArrayList<Ingredient>,
-    private val onIngredientChangedListener: OnIngredientChangedListener
-) : Fragment(), IngredientAdapter.OnRemoveClickListener {
+class IngredientFragment : Fragment(), IngredientAdapter.OnRemoveClickListener {
 
-    private var ingredientList: MutableList<Ingredient> = ingredientList
+    private lateinit var ingredientList: MutableList<Ingredient>
     private lateinit var adapter: IngredientAdapter
     private var listener: IngredientFragmentListener? = null
+    private var controllerListener: OnIngredientChangedListener? = null
 
     fun setIngredientFragmentListener(listener: IngredientFragmentListener) {
         this.listener = listener
+    }
+
+    fun setControllerListener(listener: OnIngredientChangedListener) {
+        controllerListener = listener
     }
 
     private fun notifyRecipe(updateIngredient: MutableList<Ingredient>) {
@@ -34,6 +36,13 @@ class IngredientFragment(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        arguments?.getParcelableArrayList<Ingredient>(ARG_INGREDIENTS_LIST)?.let {
+            // Initialize ingredientList with the retrieved ArrayList
+            ingredientList = it.toMutableList()
+        } ?: run {
+            // Handle case where ingredients_key is not present in arguments
+            ingredientList = mutableListOf()
+        }
         return inflater.inflate(R.layout.fragment_ingredient, container, false)
     }
 
@@ -54,10 +63,21 @@ class IngredientFragment(
         ingredientList.removeAt(position)
 
         notifyRecipe(ingredientList)
-        onIngredientChangedListener.onRemoveIngredient(ArrayList(ingredientList))
+        controllerListener!!.onRemoveIngredient(ArrayList(ingredientList))
 
         // Notify the adapter about the removal
         adapter.notifyItemRemoved(position)
+    }
+
+    companion object {
+        private const val ARG_INGREDIENTS_LIST = "ingredients_key"
+        fun newInstance(ingredientList: ArrayList<Ingredient>): IngredientFragment {
+            val fragment = IngredientFragment()
+            val bundle = Bundle()
+            bundle.putParcelableArrayList(ARG_INGREDIENTS_LIST, ingredientList)
+            fragment.arguments = bundle
+            return fragment
+        }
     }
 }
 

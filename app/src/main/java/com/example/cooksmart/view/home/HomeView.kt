@@ -30,7 +30,8 @@ import java.util.ArrayList
 
 class HomeView(private val context: Context, private val viewGroup: ViewGroup?) : CView(),
     View.OnClickListener {
-    override val view: View = LayoutInflater.from(context).inflate(R.layout.activity_home, viewGroup)
+    override val view: View =
+        LayoutInflater.from(context).inflate(R.layout.activity_home, viewGroup)
     override val controller: HomeController
     override val model: Model
 
@@ -137,9 +138,10 @@ class HomeView(private val context: Context, private val viewGroup: ViewGroup?) 
 
     fun setupViewPagerAndTabs(ingredientList: ArrayList<Ingredient>) {
         // Pass the ingredientList to the ViewPagerAdapter
-        val ingredientFragment = IngredientFragment(ingredientList, controller)
+        val ingredientFragment = IngredientFragment.newInstance(ingredientList)
         val recipeFragment = RecipeFragment.newInstance(ingredientList)
         ingredientFragment.setIngredientFragmentListener(recipeFragment)
+        ingredientFragment.setControllerListener(controller)
         viewPager2.adapter =
             ViewPagerAdapter(context as FragmentActivity, ingredientFragment, recipeFragment)
 
@@ -199,6 +201,7 @@ class HomeView(private val context: Context, private val viewGroup: ViewGroup?) 
             R.id.addIngredientBtn -> {
                 controller.showIngredientDialog()
             }
+
             R.id.profile_icon -> {
                 controller.openProfile()
             }
