@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cooksmart.R
 import com.example.cooksmart.adapter.FavoriteRecipeAdapter
-import com.example.cooksmart.controller.favoriteRecipe.ClickedFavoriteRecipeController
+import com.example.cooksmart.controller.favoriteRecipe.FavoriteRecipeController
 
 import com.example.cooksmart.data.Recipe
 import com.example.cooksmart.model.favoriterecipe.FavoriteRecipeModel
@@ -19,7 +19,7 @@ class FavoriteRecipeView(val context: Context, viewGroup: ViewGroup?) : CView() 
 
     override val view: View
     override var model: FavoriteRecipeModel
-    override val controller: ClickedFavoriteRecipeController
+    override val controller: FavoriteRecipeController
 
     private val favoriteRecipeRecyclerView: RecyclerView
     private val backBtn: ImageButton
@@ -27,7 +27,7 @@ class FavoriteRecipeView(val context: Context, viewGroup: ViewGroup?) : CView() 
 
     init {
         model = FavoriteRecipeModel()
-        controller = ClickedFavoriteRecipeController(this)
+        controller = FavoriteRecipeController(this)
         view = LayoutInflater.from(context).inflate(R.layout.activity_favorite_recipe, viewGroup)
         favoriteRecipeRecyclerView = view.findViewById(R.id.favoriteRecipeRecyclerView)
 

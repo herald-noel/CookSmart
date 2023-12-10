@@ -1,7 +1,6 @@
 package com.example.cooksmart.controller.favoriteRecipe
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.util.Log
 import com.example.cooksmart.RecipeActivity
@@ -16,7 +15,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.database
 
-class ClickedFavoriteRecipeController(private val favoriteRecipeView: FavoriteRecipeView) : Controller(), OnClickedFavoriteRecipeListener {
+class FavoriteRecipeController(private val favoriteRecipeView: FavoriteRecipeView) : Controller(), OnClickedFavoriteRecipeListener {
     val favoriteRecipes: ArrayList<Recipe> = ArrayList()
 
     fun retrieveRecipeFavorites() {
