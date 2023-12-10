@@ -153,32 +153,6 @@ class RecipeFragment : Fragment(), IngredientFragmentListener, RecipeAdapter.OnC
         }
     }
 
-    private fun retrieveRecipeHistory() {
-        val mAuth = FirebaseAuth.getInstance()
-        val uid = mAuth.uid
-        val databaseReference = Firebase.database.reference
-
-        uid?.let {
-            val recipeHistoryRef = databaseReference.child("users").child(it).child("recipeHistory")
-
-            recipeHistoryRef.addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    // Iterate through the snapshot to get recipeIds
-                    for (childSnapshot in snapshot.children) {
-                        val recipeId = childSnapshot.child("id").getValue(Int::class.java)
-                        val imgUrl = childSnapshot.child("imgUrl").getValue(String::class.java)
-                        val name = childSnapshot.child("name").getValue(String::class.java)
-                        Log.d("RECIPE FROM FIREBASE", "$recipeId, $imgUrl, $name")
-                    }
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    Log.e("Recipe History", "Error retrieving recipe history: ${error.message}")
-                }
-            })
-        }
-    }
-
     companion object {
         fun newInstance(ingredientList: ArrayList<Ingredient>): RecipeFragment {
             val fragment = RecipeFragment()
