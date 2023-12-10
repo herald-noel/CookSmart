@@ -3,6 +3,7 @@ package com.example.cooksmart.controller.profile
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import com.example.cooksmart.FavoriteRecipeActivity
 import com.example.cooksmart.HomeActivity
 import com.example.cooksmart.LoginActivity
 import com.example.cooksmart.ProfileActivity
@@ -91,5 +92,10 @@ class ProfileController(
             context.finishAffinity()
         }
         mAuth.signOut()
+    }
+
+    fun showFavoriteRecipes(context: Context) {
+       val intent = Intent(context, FavoriteRecipeActivity::class.java)
+        context.startActivity(intent)
     }
 }

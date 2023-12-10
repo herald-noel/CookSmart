@@ -58,7 +58,7 @@ class ProfileView (private val context: Context,viewGroup: ViewGroup?) : CView()
     }
     private fun favoritesButtonListener(){
         favoriteBtn.setOnClickListener {
-
+            controller.showFavoriteRecipes(context)
         }
     }
     private fun historyButtonListener(){
