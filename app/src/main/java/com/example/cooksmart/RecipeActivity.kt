@@ -9,12 +9,13 @@ class RecipeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        recipeView = RecipeView(this, null)
-        recipeView.initInstructions(intent.getIntExtra("recipeId", 0))
-        recipeView.setName(intent.getStringExtra("recipeName").toString())
-        recipeView.setImage(intent.getStringExtra("recipeImageUrl").toString())
-
+        val recipeId = intent.getIntExtra("recipeId", 0)
+        val recipeName = intent.getStringExtra("recipeName").toString()
+        val recipeImg = intent.getStringExtra("recipeImageUrl").toString()
+        recipeView = RecipeView(
+            this, null,
+            recipeId, recipeName, recipeImg
+        )
         setContentView(recipeView.getRootView())
     }
 
