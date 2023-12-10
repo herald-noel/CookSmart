@@ -101,6 +101,9 @@ class ProfileView(private val context: Context, viewGroup: ViewGroup?) : CView()
     fun showFavoriteRecipes(favoriteRecipes: ArrayList<Recipe>) {
         val imgViews: ArrayList<ImageView> = arrayListOf(favImageView1, favImageView2, favImageView3)
         for ((index, recipe) in favoriteRecipes.withIndex()) {
+            if (index > 2) {
+                break
+            }
             Picasso.get()
             .load(recipe.image)
             .into(imgViews[index])
