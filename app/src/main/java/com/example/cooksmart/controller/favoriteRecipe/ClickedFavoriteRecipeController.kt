@@ -49,12 +49,13 @@ class ClickedFavoriteRecipeController(private val favoriteRecipeView: FavoriteRe
 
     fun getSnapShot(childSnapshot: DataSnapshot) {
         val recipeId = childSnapshot.child("id").getValue(Int::class.java) ?: 0
-        val name = childSnapshot.child("name").getValue(String::class.java) ?: ""
+        val name = childSnapshot.child("title").getValue(String::class.java) ?: ""
         val imgUrl =
-            childSnapshot.child("imgUrl").getValue(String::class.java) ?: ""
+            childSnapshot.child("image").getValue(String::class.java) ?: ""
         val imgType =
-            childSnapshot.child("imgType").getValue(String::class.java) ?: ""
+            childSnapshot.child("imageType").getValue(String::class.java) ?: ""
         val recipe = Recipe(recipeId, name, imgUrl, imgType)
+        Log.d("RECIPE", "$recipeId, $name, $imgUrl, $imgType")
         favoriteRecipes.add(recipe)
     }
 
