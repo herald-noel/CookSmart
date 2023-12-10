@@ -73,12 +73,12 @@ class HomeController(
 
         // Step 2: Initialize the detector object
         val options = ObjectDetector.ObjectDetectorOptions.builder()
-            .setMaxResults(5)
-            .setScoreThreshold(0.3f)
+            .setMaxResults(10)
+            .setScoreThreshold(0.4f)
             .build()
         val detector = ObjectDetector.createFromFileAndOptions(
             homeView.getContext(),
-            "ingredient.tflite",
+            "ingredientV1.tflite",
             options
         )
 
