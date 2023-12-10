@@ -108,7 +108,7 @@
                             android:textStyle="bold" />
 
                         <ImageButton
-                            android:id="@+id/favoritesButton"
+                            android:id="@+id/favoriteBtn"
                             android:layout_width="50dp"
                             android:layout_height="48dp"
                             android:backgroundTint="#FFF"
@@ -184,6 +184,7 @@
                             android:textStyle="bold" />
 
                         <ImageButton
+                            android:id="@+id/historyBtn"
                             android:layout_width="50dp"
                             android:layout_height="48dp"
                             android:backgroundTint="#FFF"

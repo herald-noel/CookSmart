@@ -20,8 +20,8 @@ class ProfileView (private val context: Context,viewGroup: ViewGroup?) : CView()
     override val controller: ProfileController
 
     private var logout: Button
-    private var favoritesButton: ImageButton
-    private var pastRecipeButton: ImageButton
+    private var favoriteBtn: ImageButton
+    private var historyBtn: ImageButton
     private var backbutton: ImageButton
 
     private var emailTV: TextView
@@ -32,8 +32,8 @@ class ProfileView (private val context: Context,viewGroup: ViewGroup?) : CView()
         view = LayoutInflater.from(context).inflate(R.layout.activity_profile, viewGroup)
 
         logout = view.findViewById(R.id.logoutBtn)
-        favoritesButton = view.findViewById(R.id.favoritesButton)
-        pastRecipeButton = view.findViewById(R.id.favoritesButton)
+        favoriteBtn = view.findViewById(R.id.favoriteBtn)
+        historyBtn = view.findViewById(R.id.historyBtn)
         backbutton = view.findViewById(R.id.backButton)
 
         emailTV = view.findViewById(R.id.profileName2)
@@ -41,10 +41,10 @@ class ProfileView (private val context: Context,viewGroup: ViewGroup?) : CView()
 
         controller.displayProfileDetails()
 
-        backbuttonListener()
+        backButtonListener()
         logoutButtonListener()
         favoritesButtonListener()
-        pastRecipeButtonListener()
+        historyButtonListener()
     }
 
     override fun getRootView(): View {
@@ -57,25 +57,25 @@ class ProfileView (private val context: Context,viewGroup: ViewGroup?) : CView()
         }
     }
     private fun favoritesButtonListener(){
-        favoritesButton.setOnClickListener {
+        favoriteBtn.setOnClickListener {
 
         }
     }
-    private fun pastRecipeButtonListener(){
-        pastRecipeButton.setOnClickListener {
+    private fun historyButtonListener(){
+        historyBtn.setOnClickListener {
 
         }
     }
 
-    private fun backbuttonListener(){
+    private fun backButtonListener(){
         backbutton.setOnClickListener(){
             controller.redirectToHome(context)
         }
     }
 
-    override fun updateProfile(pModel: ProfileModel) {
-        model = pModel
-        emailTV.setText(model.email)
-        bdTV.setText(model.birthdate)
+    override fun updateProfile(profileModel: ProfileModel) {
+        model = profileModel
+        emailTV.text = model.email
+        bdTV.text = model.birthdate
     }
 }
