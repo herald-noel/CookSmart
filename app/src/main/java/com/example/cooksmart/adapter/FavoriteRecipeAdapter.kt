@@ -33,7 +33,7 @@ class FavoriteRecipeAdapter(
     }
 
     override fun getItemCount(): Int {
-       return favoriteRecipes.size
+        return favoriteRecipes.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -46,12 +46,11 @@ class FavoriteRecipeAdapter(
             .into(holder.recipeImg)
 
         holder.recipeCardView.setOnClickListener {
-           onClickedFavoriteRecipeListener.onRecipeClicked(position)
+            onClickedFavoriteRecipeListener.onRecipeClicked(position)
         }
-
         holder.removeBtn.setOnClickListener {
-            onClickedFavoriteRecipeListener.onRemove(position)
-            notifyItemRemoved(position)
+            favoriteRecipes.removeAt(holder.adapterPosition)
+            notifyItemRemoved(holder.adapterPosition)
         }
     }
 }
