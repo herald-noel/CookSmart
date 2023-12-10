@@ -97,7 +97,8 @@ class RecipeFragment : Fragment(), IngredientFragmentListener, RecipeAdapter.OnC
         intent.putExtra("recipeId", recipeItem.id)
         intent.putExtra("recipeName", recipeItem.title)
         intent.putExtra("recipeImageUrl", recipeItem.image)
-        val recipe = Recipe(recipeItem.id, recipeItem.title, recipeItem.image)
+        intent.putExtra("recipeImgType", recipeItem.imageType)
+        val recipe = Recipe(recipeItem.id, recipeItem.title, recipeItem.image, recipeItem.imageType)
         addRecipeToHistory(recipe)
         startActivity(intent)
     }

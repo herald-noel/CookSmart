@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    app:cardCornerRadius="15dp"
+    android:layout_marginBottom="20dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:strokeColor="@color/black"
+    android:layout_height="82dp">
+
+    <ImageView
+        android:id="@+id/favoriteRecipeImg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/img_meal_one"
+        android:scaleType="centerCrop" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#90000000" />
+    <TextView
+        android:id="@+id/favoriteRecipeName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:layout_gravity="center_vertical"
+        android:textSize="20sp"
+        android:textColor="#FFF"
+        android:text="Steamed Egg"
+        tools:ignore="RtlCompat" />
+    <TextView
+        android:id="@+id/favoriteRecipeId"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:layout_gravity="center_vertical"
+        android:textSize="20sp"
+        android:textColor="#FFF"
+        tools:ignore="RtlCompat" />
+</com.google.android.material.card.MaterialCardView>

@@ -12,9 +12,10 @@ class RecipeActivity : AppCompatActivity() {
         val recipeId = intent.getIntExtra("recipeId", 0)
         val recipeName = intent.getStringExtra("recipeName").toString()
         val recipeImg = intent.getStringExtra("recipeImageUrl").toString()
+        val recipeImgType = intent.getStringExtra("recipeImgType").toString()
         recipeView = RecipeView(
             this, null,
-            recipeId, recipeName, recipeImg
+            recipeId, recipeName, recipeImg, recipeImgType
         )
         setContentView(recipeView.getRootView())
     }

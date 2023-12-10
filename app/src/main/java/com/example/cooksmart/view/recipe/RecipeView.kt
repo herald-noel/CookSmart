@@ -24,7 +24,8 @@ class RecipeView(
     val context: Context, viewGroup: ViewGroup?,
     private var recipeId: Int,
     private var name: String,
-    private var imgUrl: String
+    private var imgUrl: String,
+    private var imgType: String
 ) : CView(), IRecipeView {
     override val view: View
     override val controller: RecipeController
@@ -80,7 +81,7 @@ class RecipeView(
 
     private fun favoriteBtnListener() {
         addFavoriteBtn.setOnClickListener {
-            val recipe = Recipe(recipeId, name, imgUrl)
+            val recipe = Recipe(recipeId, name, imgUrl, imgType)
             controller.addRecipeFavoriteFirebase(recipe)
         }
     }
