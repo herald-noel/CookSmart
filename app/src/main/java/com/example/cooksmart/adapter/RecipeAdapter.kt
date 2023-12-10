@@ -41,11 +41,6 @@ class RecipeAdapter(
         Picasso.get()
             .load(recipeItem.image)
             .into(holder.imageView)
-        holder.usedIngredient.text = "No. of used ingredients ${recipeItem.usedIngredientCount}"
-        holder.missedIngredient.text =
-            "No. of missed ingredients ${recipeItem.missedIngredientCount}"
-        holder.unusedIngredient.text =
-            "No. of unused ingredients ${recipeItem.unusedIngredientCount}"
 
         holder.cardView.setOnClickListener {
             onClickListener.onRecipeClick(recipeItem)
@@ -59,9 +54,6 @@ class RecipeAdapter(
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val recipeName: TextView = itemView.findViewById(R.id.text_recipe_name)
         val imageView: ImageView = itemView.findViewById(R.id.recipeImage)
-        val usedIngredient: TextView = itemView.findViewById(R.id.text_ingredient_used)
-        val missedIngredient: TextView = itemView.findViewById(R.id.text_ingredient_missed)
-        val unusedIngredient: TextView = itemView.findViewById(R.id.text_ingredient_unused)
         val cardView: CardView = itemView.findViewById(R.id.card)
     }
 }
