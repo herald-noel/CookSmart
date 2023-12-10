@@ -62,9 +62,8 @@ class RecipeController(
         }
     }
 
-    fun writeRecipeFavorite(recipe: Recipe, recipeHistoryRef: DatabaseReference) {
-        val newRecipeRef = recipeHistoryRef.child(recipe.id.toString())
-        newRecipeRef.setValue(recipe).addOnCompleteListener { task ->
+    fun writeRecipeFavorite(recipe: Recipe, favoriteRecipe: DatabaseReference) {
+        favoriteRecipe.setValue(recipe).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 Log.d(
                     "Recipe History", "RecipeId $recipe added to history successfully."
