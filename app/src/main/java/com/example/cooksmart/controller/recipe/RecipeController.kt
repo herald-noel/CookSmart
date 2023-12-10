@@ -71,7 +71,7 @@ class RecipeController(
     }
 
     fun writeRecipeFavorite(recipe: Recipe, recipeHistoryRef: DatabaseReference) {
-        val newRecipeRef = recipeHistoryRef.push()
+        val newRecipeRef = recipeHistoryRef.child(recipe.id.toString())
         newRecipeRef.setValue(recipe).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 Log.d(
