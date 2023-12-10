@@ -45,7 +45,7 @@ class RecipeFragment : Fragment(), IngredientFragmentListener, RecipeAdapter.OnC
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        arguments?.getParcelableArrayList<Ingredient>("ingredients_key")?.let {
+        arguments?.getParcelableArrayList<Ingredient>(ARG_INGREDIENTS_LIST)?.let {
             // Initialize ingredientList with the retrieved ArrayList
             ingredientList = it.toMutableList()
         } ?: run {
@@ -154,10 +154,12 @@ class RecipeFragment : Fragment(), IngredientFragmentListener, RecipeAdapter.OnC
     }
 
     companion object {
+
+        private const val ARG_INGREDIENTS_LIST = "ingredients_key"
         fun newInstance(ingredientList: ArrayList<Ingredient>): RecipeFragment {
             val fragment = RecipeFragment()
             val bundle = Bundle()
-            bundle.putParcelableArrayList("ingredients_key", ingredientList)
+            bundle.putParcelableArrayList(ARG_INGREDIENTS_LIST, ingredientList)
             fragment.arguments = bundle
             return fragment
         }
