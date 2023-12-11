@@ -86,12 +86,13 @@ class RequestManager(val context: Context) {
     fun getRecipeSearch(
         listener: RecipeSearchListener,
         cuisine: String,
+        includeIngredients: String,
         titleMatch: String
     ) {
         val callRecipeSearch: RecipesApi = api
         val call: Call<RecipeSearchResponse> =
             callRecipeSearch.getRecipeQuery(
-                cuisine, titleMatch, context.getString(R.string.api_key)
+                cuisine, titleMatch, includeIngredients, context.getString(R.string.api_key)
             )
         call.enqueue(object : Callback<RecipeSearchResponse> {
             override fun onResponse(

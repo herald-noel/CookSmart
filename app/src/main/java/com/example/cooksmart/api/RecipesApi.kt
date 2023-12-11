@@ -28,6 +28,7 @@ interface RecipesApi {
     fun getRecipeQuery(
         @Query("cuisine") cuisine: String,
         @Query("titleMatch") titleMatch: String,
+        @Query("includeIngredients") includeIngredients: String,
         @Query("apiKey") api: String
     ): Call<RecipeSearchResponse>
 

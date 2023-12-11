@@ -61,10 +61,8 @@ class IngredientFragment : Fragment(), IngredientAdapter.OnRemoveClickListener {
     override fun onRemoveClick(position: Int) {
         // Remove the item from the list
         ingredientList.removeAt(position)
-
         notifyRecipe(ingredientList)
         controllerListener!!.onRemoveIngredient(ArrayList(ingredientList))
-
         // Notify the adapter about the removal
         adapter.notifyItemRemoved(position)
     }

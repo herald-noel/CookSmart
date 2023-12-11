@@ -1,5 +1,6 @@
 package com.example.cooksmart.fragments
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -40,6 +41,7 @@ class RecipeFragment : Fragment(), IngredientFragmentListener, RecipeAdapter.OnC
     private lateinit var recipeAdapter: RecipeAdapter
     private var lastIngredients: String? = null
     private var isFetchingRecipes = false
+    private lateinit var searchEditText: EditText
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,7 +64,7 @@ class RecipeFragment : Fragment(), IngredientFragmentListener, RecipeAdapter.OnC
         val ingredients = ListToCommaSeparate.convertToString(ingredientList)
 
         val recyclerview: RecyclerView = view.findViewById(R.id.recycler_recipe_home)
-        val searchEditText: EditText = view.findViewById(R.id.searchRecipeEditTxt)
+        searchEditText = view.findViewById(R.id.searchRecipeEditTxt)
         val searchRecipeBtn: Button = view.findViewById(R.id.searchRecipeBtn)
         val spinnerCuisine: Spinner = view.findViewById(R.id.spinner)
         var selectedValue = "NONE"
@@ -83,7 +85,7 @@ class RecipeFragment : Fragment(), IngredientFragmentListener, RecipeAdapter.OnC
                 selectedValue = ""
             }
             if (!(selectedValue.isEmpty() && text.isEmpty())) {
-                managerGetRecipeSearch(selectedValue, text)
+                managerGetRecipeSearch(selectedValue, text, ingredients)
             } else {
                 Toast.makeText(
                     requireContext(),
@@ -111,13 +113,20 @@ class RecipeFragment : Fragment(), IngredientFragmentListener, RecipeAdapter.OnC
         }
     }
 
-    private fun managerGetRecipeSearch(cuisine: String, titleMatch: String) {
+    private fun managerGetRecipeSearch(
+        cuisine: String,
+        titleMatch: String,
+        includeIngredients: String
+    ) {
         val manager = RequestManager(requireContext())
-        manager.getRecipeSearch(recipeSearchListener, cuisine, titleMatch)
+        manager.getRecipeSearch(recipeSearchListener, cuisine, titleMatch, includeIngredients)
     }
 
     private val recipeSearchListener: RecipeSearchListener = object : RecipeSearchListener {
         override fun didFetch(response: RecipeSearchResponse, message: String) {
+            if (response.number == 0) {
+                Toast.makeText(requireContext(), "No results found.", Toast.LENGTH_SHORT).show()
+            }
             recipeAdapter.updateDataRecipeFromSearch(response)
         }
 
