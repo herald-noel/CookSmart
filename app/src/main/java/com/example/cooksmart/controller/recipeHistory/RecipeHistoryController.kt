@@ -77,4 +77,7 @@ class RecipeHistoryController(private val recipeHistoryView: RecipeHistoryView) 
             recipeHistoryView.context.startActivity(intent)
         }
     }
+
+    override fun onRemove(position: Int) {
+    }
 }
