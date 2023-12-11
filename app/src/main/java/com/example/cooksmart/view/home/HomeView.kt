@@ -54,8 +54,8 @@ class HomeView(private val context: Context, viewGroup: ViewGroup?) : CView(),
 
     private var dialogView: View
     private var progress: LinearProgressIndicator
-    private var ingredientFragment: IngredientFragment
-    private var recipeFragment: RecipeFragment
+    private lateinit var ingredientFragment: IngredientFragment
+    private lateinit var recipeFragment: RecipeFragment
 
     init {
         model = HomeModel()
@@ -73,13 +73,7 @@ class HomeView(private val context: Context, viewGroup: ViewGroup?) : CView(),
                 .inflate(R.layout.dialog_add_ingredient, viewGroup, false)
         progress = view.findViewById(R.id.progressHome)
         progress.visibility = View.INVISIBLE
-
-        ingredientFragment = IngredientFragment.newInstance(ingredientList)
-        recipeFragment = RecipeFragment.newInstance(ingredientList)
-        ingredientFragment.setIngredientFragmentListener(recipeFragment)
-        ingredientFragment.setControllerListener(controller)
         setupViewPagerAndTabs(ArrayList())
-
         captureImageFab.setOnClickListener(this)
         openGalleryBtn.setOnClickListener(this)
         addIngredientBtn.setOnClickListener(this)
@@ -145,7 +139,10 @@ class HomeView(private val context: Context, viewGroup: ViewGroup?) : CView(),
     fun setupViewPagerAndTabs(ingredientList: ArrayList<Ingredient>) {
         // Pass the ingredientList to the ViewPagerAdapter
         progress.visibility = View.INVISIBLE
-
+        ingredientFragment = IngredientFragment.newInstance(ingredientList)
+        recipeFragment = RecipeFragment.newInstance(ingredientList)
+        ingredientFragment.setIngredientFragmentListener(recipeFragment)
+        ingredientFragment.setControllerListener(controller)
         ingredientFragment.setIngredientList(ingredientList)
         recipeFragment.setIngredientList(ingredientList)
 

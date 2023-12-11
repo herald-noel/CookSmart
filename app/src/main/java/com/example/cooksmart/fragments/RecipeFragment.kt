@@ -124,7 +124,7 @@ class RecipeFragment : Fragment(), IngredientFragmentListener, RecipeAdapter.OnC
 
     private val recipeSearchListener: RecipeSearchListener = object : RecipeSearchListener {
         override fun didFetch(response: RecipeSearchResponse, message: String) {
-            if (response.number == 0) {
+            if (response.totalResults == 0) {
                 Toast.makeText(requireContext(), "No results found.", Toast.LENGTH_SHORT).show()
             }
             recipeAdapter.updateDataRecipeFromSearch(response)
@@ -138,6 +138,9 @@ class RecipeFragment : Fragment(), IngredientFragmentListener, RecipeAdapter.OnC
 
     private val recipeResponseListener: RecipeResponseListener = object : RecipeResponseListener {
         override fun didFetch(response: RecipeApiResponse, message: String) {
+            if (response.size == 0) {
+                Toast.makeText(requireContext(), "No results found.", Toast.LENGTH_SHORT).show()
+            }
             recipeAdapter.updateData(response)
             isFetchingRecipes = false
         }
