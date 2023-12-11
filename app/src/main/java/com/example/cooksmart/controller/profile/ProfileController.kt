@@ -8,6 +8,7 @@ import com.example.cooksmart.FavoriteRecipeActivity
 import com.example.cooksmart.HomeActivity
 import com.example.cooksmart.LoginActivity
 import com.example.cooksmart.ProfileActivity
+import com.example.cooksmart.RecipeHistoryActivity
 import com.example.cooksmart.controller.base.Controller
 import com.example.cooksmart.data.Recipe
 import com.example.cooksmart.model.profile.IProfileCallback
@@ -27,6 +28,7 @@ class ProfileController(
     private val profileView: ProfileView
 ) : Controller(), IProfileController {
     val favoriteRecipes: ArrayList<Recipe> = ArrayList()
+    val recipeHistory: ArrayList<Recipe> = ArrayList()
 
     val mAuth = FirebaseAuth.getInstance()
     val currentUserId = FirebaseAuth.getInstance().currentUser
@@ -57,28 +59,10 @@ class ProfileController(
                     when (userSnapshot.key) {
                         "email" -> profileModel.email = userSnapshot.getValue().toString()
                         "birthdate" -> profileModel.birthdate = userSnapshot.getValue().toString()
-                        "pastRecipes" -> {
-                            for (recipeSnapshot in userSnapshot.child("pastRecipes").children) {
-                                val recipe = recipeSnapshot.getValue(RecipeModel::class.java)
-                                recipe?.let {
-                                    profileModel.pastRecipes.addRecipeToHistory(it)
-                                }
-                            }
-                        }
-
-                        "favoriteRecipes" -> {
-                            for (recipeSnapshot in userSnapshot.child("favoriteRecipes").children) {
-                                val recipe = recipeSnapshot.getValue(RecipeModel::class.java)
-                                recipe?.let {
-                                    profileModel.favoriteRecipes.addRecipeToList(it)
-                                }
-                            }
-                        }
                     }
                 }
                 callback.onProfileReceived(profileModel)
             }
-
             override fun onCancelled(databaseError: DatabaseError) {
                 // Handle errors here
             }
@@ -87,11 +71,6 @@ class ProfileController(
 
     fun redirectToHome(context: Context) {
         val intent = Intent(context, HomeActivity::class.java)
-        context.startActivity(intent)
-    }
-
-    fun redirectToProfile(context: Context) {
-        val intent = Intent(context, ProfileActivity::class.java)
         context.startActivity(intent)
     }
 
@@ -110,6 +89,10 @@ class ProfileController(
         context.startActivity(intent)
     }
 
+    fun redirectRecipeHistory(context: Context) {
+        val intent = Intent(context, RecipeHistoryActivity::class.java)
+        context.startActivity(intent)
+    }
     fun showFavoriteRecipesThumbnail() {
         val mAuth = FirebaseAuth.getInstance()
         val uid = mAuth.uid
@@ -133,7 +116,38 @@ class ProfileController(
                         profileView.showFavoriteRecipes(favoriteRecipes)
                     }
                 }
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e("Recipe History", "Error retrieving recipe history: ${error.message}")
+                }
+            })
 
+        }
+    }
+
+    fun showRecipeHistoryThumbnail() {
+        val mAuth = FirebaseAuth.getInstance()
+        val uid = mAuth.uid
+        val databaseReference = Firebase.database.reference
+
+        uid?.let {
+            val recipeHistoryRef =
+                databaseReference.child("users").child(it).child("recipeHistory")
+            recipeHistoryRef.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    // Iterate through the snapshot to get recipeIds
+                    var ctr = 0
+                    val reversedsnapshot = snapshot.children.reversed()
+                    for (childSnapshot in reversedsnapshot) {
+                        if (ctr > 2) {
+                            break;
+                        }
+                        ctr++
+                        getSnapShotHistory(childSnapshot)
+                    }
+                    if (recipeHistory.size != 0) {
+                        profileView.showRecipeHistory(recipeHistory)
+                    }
+                }
                 override fun onCancelled(error: DatabaseError) {
                     Log.e("Recipe History", "Error retrieving recipe history: ${error.message}")
                 }
@@ -152,5 +166,16 @@ class ProfileController(
         val recipe = Recipe(recipeId, name, imgUrl, imgType)
         Log.d("RECIPE", "$recipeId, $name, $imgUrl, $imgType")
         favoriteRecipes.add(recipe)
+    }
+    fun getSnapShotHistory(childSnapshot: DataSnapshot) {
+        val recipeId = childSnapshot.child("id").getValue(Int::class.java) ?: 0
+        val name = childSnapshot.child("title").getValue(String::class.java) ?: ""
+        val imgUrl =
+            childSnapshot.child("image").getValue(String::class.java) ?: ""
+        val imgType =
+            childSnapshot.child("imageType").getValue(String::class.java) ?: ""
+        val recipe = Recipe(recipeId, name, imgUrl, imgType)
+        Log.d("RECIPE", "$recipeId, $name, $imgUrl, $imgType")
+        recipeHistory.add(recipe)
     }
 }

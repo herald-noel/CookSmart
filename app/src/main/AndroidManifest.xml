@@ -27,6 +27,9 @@
             android:name=".FavoriteRecipeActivity"
             android:exported="false" />
         <activity
+            android:name=".RecipeHistoryActivity"
+            android:exported="false" />
+        <activity
             android:name=".RecipeActivity"
             android:exported="false" />
         <activity
