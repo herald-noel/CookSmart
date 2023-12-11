@@ -24,11 +24,11 @@ import com.example.cooksmart.fragments.RecipeFragment
 import com.example.cooksmart.model.base.Model
 import com.example.cooksmart.model.home.HomeModel
 import com.example.cooksmart.view.base.CView
+import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.android.material.tabs.TabLayout
-import org.tensorflow.lite.task.vision.detector.Detection
 import java.util.ArrayList
 
-class HomeView(private val context: Context, private val viewGroup: ViewGroup?) : CView(),
+class HomeView(private val context: Context, viewGroup: ViewGroup?) : CView(),
     View.OnClickListener {
     override val view: View =
         LayoutInflater.from(context).inflate(R.layout.activity_home, viewGroup)
@@ -50,12 +50,10 @@ class HomeView(private val context: Context, private val viewGroup: ViewGroup?) 
     private var captureImageFab: CardView
 
     private var inputImageView: ImageView
-    private var imgSampleOne: ImageView
-    private var imgSampleTwo: ImageView
-    private var imgSampleThree: ImageView
     private var profileIcon: ImageView
 
     private var dialogView: View
+    private var progress: LinearProgressIndicator
 
     init {
         model = HomeModel()
@@ -64,9 +62,6 @@ class HomeView(private val context: Context, private val viewGroup: ViewGroup?) 
         viewPager2 = view.findViewById(R.id.viewPager)
         captureImageFab = view.findViewById(R.id.captureImageFab)
         inputImageView = view.findViewById(R.id.imageView)
-        imgSampleOne = view.findViewById(R.id.imgSampleOne)
-        imgSampleTwo = view.findViewById(R.id.imgSampleTwo)
-        imgSampleThree = view.findViewById(R.id.imgSampleThree)
         tvPlaceholder = view.findViewById(R.id.tvPlaceholder)
         openGalleryBtn = view.findViewById(R.id.openGalleryBtn)
         addIngredientBtn = view.findViewById(R.id.addIngredientBtn)
@@ -74,11 +69,10 @@ class HomeView(private val context: Context, private val viewGroup: ViewGroup?) 
         dialogView =
             LayoutInflater.from(getContext())
                 .inflate(R.layout.dialog_add_ingredient, viewGroup, false)
+        progress = view.findViewById(R.id.progressHome)
+        progress.visibility = View.INVISIBLE
 
         captureImageFab.setOnClickListener(this)
-        imgSampleOne.setOnClickListener(this)
-        imgSampleTwo.setOnClickListener(this)
-        imgSampleThree.setOnClickListener(this)
         openGalleryBtn.setOnClickListener(this)
         addIngredientBtn.setOnClickListener(this)
         profileIcon.setOnClickListener(this)
@@ -86,6 +80,10 @@ class HomeView(private val context: Context, private val viewGroup: ViewGroup?) 
 
     fun getIngredientSet(): LinkedHashSet<Ingredient> {
         return ingredientSet
+    }
+
+    fun getProgressHome(): LinearProgressIndicator {
+        return progress
     }
 
     fun getIngredientList(): ArrayList<Ingredient> {
@@ -138,6 +136,7 @@ class HomeView(private val context: Context, private val viewGroup: ViewGroup?) 
 
     fun setupViewPagerAndTabs(ingredientList: ArrayList<Ingredient>) {
         // Pass the ingredientList to the ViewPagerAdapter
+        progress.visibility = View.INVISIBLE
         val ingredientFragment = IngredientFragment.newInstance(ingredientList)
         val recipeFragment = RecipeFragment.newInstance(ingredientList)
         ingredientFragment.setIngredientFragmentListener(recipeFragment)
@@ -180,18 +179,6 @@ class HomeView(private val context: Context, private val viewGroup: ViewGroup?) 
                 } catch (e: ActivityNotFoundException) {
                     Log.e(HomeController.TAG, e.message.toString())
                 }
-            }
-
-            R.id.imgSampleOne -> {
-                controller.setViewAndDetect(controller.getSampleImage(R.drawable.img_meal_one))
-            }
-
-            R.id.imgSampleTwo -> {
-                controller.setViewAndDetect(controller.getSampleImage(R.drawable.img_meal_two))
-            }
-
-            R.id.imgSampleThree -> {
-                controller.setViewAndDetect(controller.getSampleImage(R.drawable.img_meal_three))
             }
 
             R.id.openGalleryBtn -> {

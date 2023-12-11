@@ -31,18 +31,10 @@ class RecipeController(
         val databaseReference = Firebase.database.reference
         uid?.let {
             val recipeHistoryRef =
-                databaseReference.child("users").child(it).child("recipeFavorites")
+                databaseReference.child("users").child(it).child("recipeFavorites").child(recipe.id.toString())
             recipeHistoryRef.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    var isDuplicate = false
-                    for (childSnapshot in snapshot.children) {
-                        val existingRecipeId = childSnapshot.child("id").getValue(Int::class.java)
-                        if (existingRecipeId == recipe.id) {
-                            isDuplicate = true
-                            break
-                        }
-                    }
-                    if (!isDuplicate) {
+                    if (!snapshot.exists()) {
                         writeRecipeFavorite(recipe, recipeHistoryRef)
                         Toast.makeText(
                             recipeView.context,
@@ -70,9 +62,8 @@ class RecipeController(
         }
     }
 
-    fun writeRecipeFavorite(recipe: Recipe, recipeHistoryRef: DatabaseReference) {
-        val newRecipeRef = recipeHistoryRef.push()
-        newRecipeRef.setValue(recipe).addOnCompleteListener { task ->
+    fun writeRecipeFavorite(recipe: Recipe, favoriteRecipe: DatabaseReference) {
+        favoriteRecipe.setValue(recipe).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 Log.d(
                     "Recipe History", "RecipeId $recipe added to history successfully."

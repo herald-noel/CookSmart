@@ -73,12 +73,12 @@ class HomeController(
 
         // Step 2: Initialize the detector object
         val options = ObjectDetector.ObjectDetectorOptions.builder()
-            .setMaxResults(5)
-            .setScoreThreshold(0.3f)
+            .setMaxResults(10)
+            .setScoreThreshold(0.4f)
             .build()
         val detector = ObjectDetector.createFromFileAndOptions(
             homeView.getContext(),
-            "ingredient.tflite",
+            "ingredientV1.tflite",
             options
         )
 
@@ -154,6 +154,7 @@ class HomeController(
      *      Set image to view and call object detection
      */
     fun setViewAndDetect(bitmap: Bitmap) {
+        homeView.getProgressHome().visibility = View.VISIBLE
         // Display capture image
         homeView.getInputImageView().setImageBitmap(bitmap)
         homeView.getTvPlaceholder().visibility = View.INVISIBLE

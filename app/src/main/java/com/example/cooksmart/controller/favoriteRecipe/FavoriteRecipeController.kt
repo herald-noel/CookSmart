@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.util.Log
 import com.example.cooksmart.RecipeActivity
+import com.example.cooksmart.adapter.FavoriteRecipeAdapter
 import com.example.cooksmart.controller.base.Controller
 import com.example.cooksmart.data.Recipe
 import com.example.cooksmart.listener.OnClickedFavoriteRecipeListener
@@ -15,8 +16,10 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.database
 
-class FavoriteRecipeController(private val favoriteRecipeView: FavoriteRecipeView) : Controller(), OnClickedFavoriteRecipeListener {
-    val favoriteRecipes: ArrayList<Recipe> = ArrayList()
+class FavoriteRecipeController(private val favoriteRecipeView: FavoriteRecipeView) : Controller(),
+    OnClickedFavoriteRecipeListener {
+    private var favoriteRecipes: ArrayList<Recipe> = ArrayList()
+    var favoriteRecipeAdapter: FavoriteRecipeAdapter = FavoriteRecipeAdapter(favoriteRecipes, this)
 
     fun retrieveRecipeFavorites() {
         val mAuth = FirebaseAuth.getInstance()
@@ -26,24 +29,21 @@ class FavoriteRecipeController(private val favoriteRecipeView: FavoriteRecipeVie
         uid?.let {
             val recipeHistoryRef =
                 databaseReference.child("users").child(it).child("recipeFavorites")
-            recipeHistoryRef.addValueEventListener(object : ValueEventListener {
+            recipeHistoryRef.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    // Iterate through the snapshot to get recipeIds
                     for (childSnapshot in snapshot.children) {
                         getSnapShot(childSnapshot)
                     }
-                    if (favoriteRecipes.size != 0) {
-                        favoriteRecipeView.showFavoriteRecipes(favoriteRecipes)
-                    }
+                    favoriteRecipeAdapter.notifyDataSetChanged()
                 }
-
                 override fun onCancelled(error: DatabaseError) {
-                    Log.e("Recipe History", "Error retrieving recipe history: ${error.message}")
+                    Log.e(
+                        "Recipe favorite",
+                        "Error retrieving recipe favorite: ${error.message}"
+                    )
                 }
             })
-
         }
-
     }
 
     fun getSnapShot(childSnapshot: DataSnapshot) {
@@ -74,6 +74,28 @@ class FavoriteRecipeController(private val favoriteRecipeView: FavoriteRecipeVie
         intent.putExtra("recipeImgType", recipeItem.imageType)
         if (favoriteRecipeView.context is Activity) {
             favoriteRecipeView.context.startActivity(intent)
+        }
+    }
+
+    override fun onRemove(position: Int) {
+        val recipeId = favoriteRecipes[position].id
+        removeFavoriteRecipeFirebase(recipeId, position)
+    }
+
+    private fun removeFavoriteRecipeFirebase(recipeId: Int, position: Int) {
+        val mAuth = FirebaseAuth.getInstance()
+        val uid = mAuth.uid
+        val databaseReference = Firebase.database.reference
+
+        uid?.let {
+            val recipeRef =
+                databaseReference.child("users").child(it).child("recipeFavorites")
+                    .child(recipeId.toString())
+            recipeRef.removeValue().addOnCompleteListener {
+                Log.d("REMOVE RECIPE", "$recipeId has been removed")
+                favoriteRecipes.removeAt(position)
+                favoriteRecipeAdapter.notifyItemRemoved(position)
+            }
         }
     }
 }
