@@ -6,7 +6,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.Button
 import android.widget.EditText
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -60,7 +63,35 @@ class RecipeFragment : Fragment(), IngredientFragmentListener, RecipeAdapter.OnC
 
         val recyclerview: RecyclerView = view.findViewById(R.id.recycler_recipe_home)
         val searchEditText: EditText = view.findViewById(R.id.searchRecipeEditTxt)
+        val searchRecipeBtn: Button = view.findViewById(R.id.searchRecipeBtn)
+        val spinnerCuisine: Spinner = view.findViewById(R.id.spinner)
+        var selectedValue = "NONE"
 
+        spinnerCuisine.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                selectedValue = p0?.getItemAtPosition(p2) as String
+                println("SelectedValue: $selectedValue")
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+            }
+        }
+
+        searchRecipeBtn.setOnClickListener {
+            val text = searchEditText.text.toString()
+            if (selectedValue == "Choose a cuisine") {
+                selectedValue = ""
+            }
+            if (!(selectedValue.isEmpty() && text.isEmpty())) {
+                managerGetRecipeSearch(selectedValue, text)
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    "Please search a recipe or pick a cuisine.",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
 
         recyclerview.layoutManager = LinearLayoutManager(requireContext())
 
@@ -80,7 +111,7 @@ class RecipeFragment : Fragment(), IngredientFragmentListener, RecipeAdapter.OnC
         }
     }
 
-    private fun managetGetRecipeSearch(cuisine: String, titleMatch: String) {
+    private fun managerGetRecipeSearch(cuisine: String, titleMatch: String) {
         val manager = RequestManager(requireContext())
         manager.getRecipeSearch(recipeSearchListener, cuisine, titleMatch)
     }
@@ -91,7 +122,6 @@ class RecipeFragment : Fragment(), IngredientFragmentListener, RecipeAdapter.OnC
         }
 
         override fun didError(message: String) {
-            TODO("Not yet implemented")
         }
 
     }

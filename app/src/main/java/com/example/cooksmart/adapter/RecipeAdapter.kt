@@ -1,7 +1,6 @@
 package com.example.cooksmart.adapter
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,8 +30,25 @@ class RecipeAdapter(
     }
 
     fun updateDataRecipeFromSearch(newResponse: RecipeSearchResponse) {
+        val newRecipeApi = RecipeApiResponse()
         // Update the response data and notify the adapter
-        Log.d("response", newResponse.toString())
+        for (recipe in newResponse.results) {
+            val recipeItem = RecipeApiResponseItem(
+                id = recipe.id,
+                image = recipe.image,
+                imageType = recipe.imageType,
+                likes = 0,
+                missedIngredientCount = 0,
+                missedIngredients = listOf(),
+                title = recipe.title,
+                unusedIngredients = listOf(),
+                unusedIngredientCount = 0,
+                usedIngredientCount = 0,
+                usedIngredients = listOf()
+            )
+            newRecipeApi.add(recipeItem)
+        }
+        recipeResponseList = newRecipeApi
         notifyDataSetChanged()
     }
 
