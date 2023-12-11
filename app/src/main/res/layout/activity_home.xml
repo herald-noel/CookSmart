@@ -62,8 +62,8 @@
             android:layout_width="330dp"
             android:layout_height="362dp"
             android:layout_marginTop="4dp"
-            android:visibility="invisible"
             android:background="#46B488"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.489"
             app:layout_constraintStart_toStartOf="parent"
@@ -137,8 +137,7 @@
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/openGalleryBtn">
-        </LinearLayout>
+            app:layout_constraintTop_toBottomOf="@+id/openGalleryBtn"></LinearLayout>
 
         <LinearLayout
             android:id="@+id/linearLayout3"
@@ -172,6 +171,7 @@
                     android:text="Recipe list" />
 
             </com.google.android.material.tabs.TabLayout>
+
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/addIngredientBtn"

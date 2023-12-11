@@ -5,8 +5,40 @@
     android:layout_height="match_parent"
     tools:context=".fragments.RecipeFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_recipe_home"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:entries="@array/cuisine_types"
+            android:prompt="@string/app_name"
+            android:textAlignment="center" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/searchRecipeEditTxt"
+                android:layout_width="100dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:hint="Search recipe"
+                android:maxLines="1" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Enter" />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_recipe_home"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
 </FrameLayout>

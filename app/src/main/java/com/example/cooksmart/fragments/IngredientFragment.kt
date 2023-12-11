@@ -69,6 +69,10 @@ class IngredientFragment : Fragment(), IngredientAdapter.OnRemoveClickListener {
         adapter.notifyItemRemoved(position)
     }
 
+    fun setIngredientList(ingredientList: ArrayList<Ingredient>) {
+        this.ingredientList = ingredientList
+    }
+
     companion object {
         private const val ARG_INGREDIENTS_LIST = "ingredients_key"
         fun newInstance(ingredientList: ArrayList<Ingredient>): IngredientFragment {

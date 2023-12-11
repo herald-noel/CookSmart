@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,8 +18,10 @@ import com.example.cooksmart.RecipeActivity
 import com.example.cooksmart.adapter.RecipeAdapter
 import com.example.cooksmart.api.RequestManager
 import com.example.cooksmart.api.listener.RecipeResponseListener
+import com.example.cooksmart.api.listener.RecipeSearchListener
 import com.example.cooksmart.api.model.RecipeApiResponse
 import com.example.cooksmart.api.model.RecipeApiResponseItem
+import com.example.cooksmart.api.model.recipeSearch.RecipeSearchResponse
 import com.example.cooksmart.data.Recipe
 import com.example.cooksmart.utils.ListToCommaSeparate
 import com.google.firebase.Firebase
@@ -56,6 +59,9 @@ class RecipeFragment : Fragment(), IngredientFragmentListener, RecipeAdapter.OnC
         val ingredients = ListToCommaSeparate.convertToString(ingredientList)
 
         val recyclerview: RecyclerView = view.findViewById(R.id.recycler_recipe_home)
+        val searchEditText: EditText = view.findViewById(R.id.searchRecipeEditTxt)
+
+
         recyclerview.layoutManager = LinearLayoutManager(requireContext())
 
         recipeAdapter = RecipeAdapter(RecipeApiResponse(), this)
@@ -72,6 +78,22 @@ class RecipeFragment : Fragment(), IngredientFragmentListener, RecipeAdapter.OnC
             val manager = RequestManager(requireContext())
             manager.getRecipes(recipeResponseListener, ingredients, number)
         }
+    }
+
+    private fun managetGetRecipeSearch(cuisine: String, titleMatch: String) {
+        val manager = RequestManager(requireContext())
+        manager.getRecipeSearch(recipeSearchListener, cuisine, titleMatch)
+    }
+
+    private val recipeSearchListener: RecipeSearchListener = object : RecipeSearchListener {
+        override fun didFetch(response: RecipeSearchResponse, message: String) {
+            recipeAdapter.updateDataRecipeFromSearch(response)
+        }
+
+        override fun didError(message: String) {
+            TODO("Not yet implemented")
+        }
+
     }
 
 
@@ -151,6 +173,10 @@ class RecipeFragment : Fragment(), IngredientFragmentListener, RecipeAdapter.OnC
                 )
             }
         }
+    }
+
+    fun setIngredientList(ingredientList: ArrayList<Ingredient>) {
+        this.ingredientList = ingredientList
     }
 
     companion object {

@@ -1,6 +1,7 @@
 package com.example.cooksmart.adapter
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.cooksmart.R
 import com.example.cooksmart.api.model.RecipeApiResponse
 import com.example.cooksmart.api.model.RecipeApiResponseItem
+import com.example.cooksmart.api.model.recipeSearch.RecipeSearchResponse
 import com.squareup.picasso.Picasso
 
 class RecipeAdapter(
@@ -25,6 +27,12 @@ class RecipeAdapter(
     fun updateData(newResponse: RecipeApiResponse) {
         // Update the response data and notify the adapter
         recipeResponseList = newResponse
+        notifyDataSetChanged()
+    }
+
+    fun updateDataRecipeFromSearch(newResponse: RecipeSearchResponse) {
+        // Update the response data and notify the adapter
+        Log.d("response", newResponse.toString())
         notifyDataSetChanged()
     }
 
