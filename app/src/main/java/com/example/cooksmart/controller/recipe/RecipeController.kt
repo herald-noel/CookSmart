@@ -86,6 +86,7 @@ class RecipeController(
         override fun didFetch(response: InstructionsResponse, message: String) {
             Log.d("DIRECTIONS SUCCESS", response.toString())
             recipeView.setAdapter(response)
+
         }
 
         override fun didError(message: String) {

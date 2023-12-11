@@ -34,6 +34,10 @@ class ProfileView(private val context: Context, viewGroup: ViewGroup?) : CView()
     private var favImageView2: ImageView
     private var favImageView3: ImageView
 
+    private var pastHView1: ImageView
+    private var pastHView2: ImageView
+    private var pastHView3: ImageView
+
     init {
         model = ProfileModel()
         controller = ProfileController(model, this)
@@ -51,6 +55,10 @@ class ProfileView(private val context: Context, viewGroup: ViewGroup?) : CView()
         favImageView2 = view.findViewById(R.id.favImageView2)
         favImageView3 = view.findViewById(R.id.favImageView3)
 
+        pastHView1 = view.findViewById(R.id.pastHView1)
+        pastHView2 = view.findViewById(R.id.pastHView2)
+        pastHView3 = view.findViewById(R.id.pastHView3)
+
         controller.displayProfileDetails()
 
         backButtonListener()
@@ -58,6 +66,7 @@ class ProfileView(private val context: Context, viewGroup: ViewGroup?) : CView()
         favoritesButtonListener()
         historyButtonListener()
         initFavoriteRecipesThumbnail()
+        initRecipeHistoryThumbnail()
     }
 
     override fun getRootView(): View {
@@ -77,8 +86,9 @@ class ProfileView(private val context: Context, viewGroup: ViewGroup?) : CView()
     }
 
     private fun historyButtonListener() {
+        println("history")
         historyBtn.setOnClickListener {
-
+            controller.redirectRecipeHistory(context)
         }
     }
 
@@ -96,6 +106,19 @@ class ProfileView(private val context: Context, viewGroup: ViewGroup?) : CView()
 
     private fun initFavoriteRecipesThumbnail() {
         controller.showFavoriteRecipesThumbnail()
+    }
+
+    private fun initRecipeHistoryThumbnail(){
+        controller.showRecipeHistoryThumbnail()
+    }
+
+    fun showRecipeHistory(recipeHistory: ArrayList<Recipe>) {
+        val imgViews: ArrayList<ImageView> = arrayListOf(pastHView1, pastHView2, pastHView3)
+        for ((index, recipe) in recipeHistory.withIndex()) {
+            Picasso.get()
+                .load(recipe.image)
+                .into(imgViews[index])
+        }
     }
 
     fun showFavoriteRecipes(favoriteRecipes: ArrayList<Recipe>) {

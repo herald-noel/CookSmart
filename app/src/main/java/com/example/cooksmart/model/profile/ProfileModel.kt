@@ -15,15 +15,4 @@ class ProfileModel : Model(), IProfileModel{
     fun fetchEmail(): String {
         return email
     }
-    fun setPastRecipes(recipes: ArrayList<RecipeModel>) {
-        for(recipe in recipes){
-            pastRecipes.addRecipeToHistory(recipe)
-        }
-    }
-
-    fun setFavoriteRecipes(recipes: ArrayList<RecipeModel>) {
-        for(recipe in recipes){
-            pastRecipes.addRecipeToHistory(recipe)
-        }
-    }
 }
