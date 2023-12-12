@@ -73,8 +73,8 @@ class HomeController(
 
         // Step 2: Initialize the detector object
         val options = ObjectDetector.ObjectDetectorOptions.builder()
-            .setMaxResults(10)
-            .setScoreThreshold(0.4f)
+            .setMaxResults(100)
+            .setScoreThreshold(0.25f)
             .build()
         val detector = ObjectDetector.createFromFileAndOptions(
             homeView.getContext(),

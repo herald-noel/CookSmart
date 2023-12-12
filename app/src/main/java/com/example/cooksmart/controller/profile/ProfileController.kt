@@ -108,7 +108,7 @@ class ProfileController(
                 override fun onDataChange(snapshot: DataSnapshot) {
                     // Iterate through the snapshot to get recipeIds
                     var ctr = 0
-                    for (childSnapshot in snapshot.children) {
+                    for (childSnapshot in snapshot.children.reversed()) {
                         if (ctr > 2) {
                             break;
                         }
